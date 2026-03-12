@@ -1,0 +1,161 @@
+.hero-container {
+    position: relative;
+    height: 90vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* Darken placeholder background */
+    background: var(--gradient-hero, linear-gradient(to bottom, var(--color-bg-dark) 0%, var(--color-bg-surface) 100%));
+    color: var(--color-text-inverse);
+    overflow: hidden;
+}
+
+/* Simulated Parallax / Cinematic Zoom - Replace background image with dynamic source later */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-385-scaled.jpg') center/cover no-repeat;
+    opacity: 0.55;
+    animation: cinematicZoom 30s infinite alternate linear;
+    z-index: 1;
+}
+
+@keyframes cinematicZoom {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-edition {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-gold);
+    font-weight: 600;
+    margin-bottom: var(--spacing-4);
+    font-size: 1rem;
+}
+
+.hero-title {
+    color: var(--color-text-inverse);
+    font-size: 5rem;
+    margin-bottom: var(--spacing-2);
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* SplitText character wrapper */
+.hero-char {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: var(--spacing-2);
+    opacity: 0.9;
+}
+
+.hero-rain-date {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-bottom: var(--spacing-10);
+}
+
+.countdown-container {
+    display: flex;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-12);
+}
+
+.countdown-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-md);
+    min-width: 90px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.countdown-num {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    line-height: 1;
+    margin-bottom: var(--spacing-1);
+}
+
+.countdown-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+}
+
+.hero-ctas {
+    display: flex;
+    gap: var(--spacing-4);
+}
+
+.hero-btn {
+    padding: var(--spacing-4) var(--spacing-8);
+    font-size: 1.1rem;
+}
+
+.hero-btn-outline {
+    color: var(--color-text-inverse);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.hero-btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-text-inverse);
+    color: var(--color-text-inverse);
+}
+
+@media screen and (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .countdown-box {
+        min-width: 70px;
+        padding: var(--spacing-3);
+    }
+
+    .countdown-num {
+        font-size: 1.8rem;
+    }
+
+    .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .hero-btn {
+        width: 100%;
+    }
+}

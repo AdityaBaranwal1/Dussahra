@@ -1,0 +1,91 @@
+.sponsors-page {
+    padding-bottom: var(--spacing-16);
+}
+
+.sponsor-tier {
+    margin-top: var(--spacing-12);
+    text-align: center;
+}
+
+.tier-title {
+    margin-bottom: var(--spacing-8);
+    font-size: 2rem;
+    color: var(--color-text-main);
+    position: relative;
+    display: inline-block;
+}
+
+.tier-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--color-primary);
+}
+
+.platinum-title {
+    color: var(--color-text-muted);
+}
+
+.platinum-title::after {
+    background-color: var(--color-border);
+    width: 100px;
+}
+
+.gold-title {
+    color: var(--color-gold);
+}
+
+.gold-title::after {
+    background-color: var(--color-gold);
+    width: 80px;
+}
+
+.sponsor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-6);
+}
+
+.sponsor-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-6);
+    background: var(--color-bg-surface);
+}
+
+.sponsor-card img {
+    max-width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.grid-large .sponsor-card {
+    width: 350px;
+    height: 180px;
+}
+
+.grid-medium .sponsor-card {
+    width: 250px;
+    height: 140px;
+}
+
+.grid-small .sponsor-card {
+    width: 180px;
+    height: 100px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .grid-large .sponsor-card,
+    .grid-medium .sponsor-card,
+    .grid-small .sponsor-card {
+        width: 100%;
+        max-width: 300px;
+    }
+}

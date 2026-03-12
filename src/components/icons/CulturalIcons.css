@@ -1,0 +1,339 @@
+/* CulturalIcons.css — Micro-animations for cultural SVG icons */
+
+/* =============================================
+   Base icon wrapper
+   ============================================= */
+.cultural-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.cultural-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* =============================================
+   Ghungroo — Gentle jingle on hover
+   ============================================= */
+.ghungroo-icon:hover {
+    animation: jingle 0.4s ease-in-out 2;
+}
+
+@keyframes jingle {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px) rotate(-2deg); }
+    75% { transform: translateX(3px) rotate(2deg); }
+}
+
+/* =============================================
+   Mudra — Subtle wave on hover
+   ============================================= */
+.mudra-icon:hover {
+    animation: wave 0.6s ease-in-out;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-8deg); }
+    60% { transform: rotate(5deg); }
+}
+
+/* =============================================
+   Bow & Arrow — Arrow draws back on hover, string bends
+   ============================================= */
+.bow-arrow-icon .arrow-group {
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.bow-arrow-icon .bow-string-line {
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.bow-arrow-icon:hover .arrow-group {
+    transform: translateX(-8%);
+}
+
+.bow-arrow-icon:hover .bow-string-line {
+    transform: translateX(12%);
+}
+
+/* =============================================
+   Diya — Flame flicker (always on, subtle)
+   ============================================= */
+.diya-flame {
+    animation: flicker 1.5s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+@keyframes flicker {
+    0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.8; }
+    25% { transform: scaleY(1.1) scaleX(0.9); opacity: 0.9; }
+    50% { transform: scaleY(0.9) scaleX(1.05); opacity: 0.7; }
+    75% { transform: scaleY(1.05) scaleX(0.95); opacity: 0.85; }
+}
+
+/* =============================================
+   Lotus — Petals bloom outward on hover
+   ============================================= */
+.lotus-petal {
+    transition: transform 0.5s ease;
+    transform-origin: center bottom;
+}
+
+.lotus-icon:hover .petal-left-1 { transform: rotate(-5deg); }
+.lotus-icon:hover .petal-left-2 { transform: rotate(-10deg); }
+.lotus-icon:hover .petal-right-1 { transform: rotate(5deg); }
+.lotus-icon:hover .petal-right-2 { transform: rotate(10deg); }
+
+/* =============================================
+   Tabla — Drumhead depresses on hover
+   ============================================= */
+.tabla-head {
+    transition: transform 0.15s ease;
+    transform-origin: center center;
+}
+
+.tabla-icon:hover .tabla-head { transform: scaleY(0.8); }
+.tabla-icon:hover { transform: scale(1.02); }
+
+/* =============================================
+   Trishul — Prongs glow on hover
+   ============================================= */
+.trishul-prong {
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.trishul-icon:hover .trishul-prong {
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.trishul-icon:hover {
+    transform: scale(1.05);
+}
+
+/* =============================================
+   Ravana — Heads pulse subtly on hover
+   ============================================= */
+.ravana-head {
+    transition: transform 0.4s ease, opacity 0.3s ease;
+    transform-origin: center center;
+}
+
+.ravana-icon:hover .ravana-head {
+    animation: ravanaGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes ravanaGlow {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; filter: drop-shadow(0 0 3px currentColor); }
+}
+
+/* =============================================
+   Flame — Continuous flicker animation
+   ============================================= */
+.flame-outer {
+    animation: flameFlicker 2s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+.flame-inner {
+    animation: flameFlicker 1.8s ease-in-out infinite 0.2s;
+    transform-origin: bottom center;
+}
+
+.flame-core {
+    animation: flameFlicker 1.5s ease-in-out infinite 0.1s;
+    transform-origin: bottom center;
+}
+
+.flame-spark {
+    animation: sparkFloat 2s ease-in-out infinite;
+}
+
+.flame-spark:nth-child(5) { animation-delay: 0.5s; }
+.flame-spark:nth-child(6) { animation-delay: 1s; }
+
+@keyframes flameFlicker {
+    0%, 100% { transform: scaleX(1) scaleY(1); }
+    25% { transform: scaleX(0.95) scaleY(1.05); }
+    50% { transform: scaleX(1.03) scaleY(0.97); }
+    75% { transform: scaleX(0.98) scaleY(1.02); }
+}
+
+@keyframes sparkFloat {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 0.7; transform: translateY(-4px); }
+}
+
+/* =============================================
+   Mandala — Slow rotation on hover
+   ============================================= */
+.mandala-icon:hover svg {
+    animation: mandalaSpin 8s linear infinite;
+}
+
+@keyframes mandalaSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* =============================================
+   Peacock Feather — Gentle sway on hover
+   ============================================= */
+.peacock-feather-icon:hover {
+    animation: featherSway 2s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+@keyframes featherSway {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(3deg); }
+    75% { transform: rotate(-3deg); }
+}
+
+/* =============================================
+   Marigold — Petals pulse on hover
+   ============================================= */
+.marigold-petal {
+    transition: transform 0.4s ease;
+    transform-origin: 32px 32px;
+}
+
+.marigold-icon:hover .marigold-petal {
+    animation: petalPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes petalPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+/* =============================================
+   Om — Gentle glow on hover
+   ============================================= */
+.om-icon:hover svg {
+    filter: drop-shadow(0 0 6px currentColor);
+}
+
+.om-icon:hover {
+    transform: scale(1.05);
+}
+
+/* =============================================
+   Conch — Vibrates subtly on hover
+   ============================================= */
+.conch-icon:hover {
+    animation: conchVibrate 0.3s ease-in-out 3;
+}
+
+@keyframes conchVibrate {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+}
+
+/* =============================================
+   Rangoli — Continuous slow rotation
+   ============================================= */
+.rangoli-icon svg {
+    animation: rangoliSpin 30s linear infinite;
+}
+
+@keyframes rangoliSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* =============================================
+   Checkmark — Draw-in animation
+   ============================================= */
+.checkmark-path {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: drawCheck 0.6s ease-out 0.3s forwards;
+}
+
+@keyframes drawCheck {
+    to { stroke-dashoffset: 0; }
+}
+
+/* =============================================
+   Location Pin — Gentle bounce on hover
+   ============================================= */
+.location-pin-icon:hover {
+    animation: pinBounce 0.5s ease-in-out;
+}
+
+@keyframes pinBounce {
+    0%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+    60% { transform: translateY(-3px); }
+}
+
+/* =============================================
+   Shield Check — Pulse glow on hover
+   ============================================= */
+.shield-check-icon:hover svg {
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+.shield-check-icon:hover {
+    transform: scale(1.06);
+}
+
+/* =============================================
+   Alert — Attention pulse
+   ============================================= */
+.alert-icon {
+    color: var(--color-accent);
+}
+
+.alert-icon:hover {
+    animation: alertPulse 0.6s ease-in-out 2;
+}
+
+@keyframes alertPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* =============================================
+   Temple — Subtle lift on hover
+   ============================================= */
+.temple-icon:hover {
+    transform: translateY(-3px);
+}
+
+/* =============================================
+   Bazaar — Bag swings on hover
+   ============================================= */
+.bazaar-icon:hover {
+    animation: bagSwing 0.5s ease-in-out;
+    transform-origin: top center;
+}
+
+@keyframes bagSwing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+/* =============================================
+   Reduced Motion — Disable all animations
+   ============================================= */
+@media (prefers-reduced-motion: reduce) {
+    .cultural-icon,
+    .cultural-icon svg,
+    .cultural-icon svg * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

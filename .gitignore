@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Research / reference materials
+Cultural-Research-Dussehra
+Family Photos httrack/
+Project Breakdown
+GAME-PROMPT.md
+IAF-Volunteer_Agreement_and_Policy-2023.pdf
+PLAN-A-UI-FIXES.md

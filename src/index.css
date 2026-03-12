@@ -1,0 +1,379 @@
+:root,
+.theme-default {
+    /* Brand Colors */
+    --color-primary: #E85D04;
+    /* Festival Orange/Saffron */
+    --color-primary-hover: #D04F00;
+    --color-secondary: #0170B9;
+    /* Royal Blue */
+    --color-accent: #A71400;
+    /* Deep Vermilion Red */
+    --color-gold: #FFB703;
+    /* Marigold/Gold */
+
+    /* Neutral / Background Colors */
+    --color-bg-base: #FAFAFA;
+    /* Off-White for clean feel */
+    --color-bg-surface: #FFFFFF;
+    --color-bg-dark: #1A1A1A;
+    /* Deep Charcoal for media sections */
+
+    /* Form Colors */
+    --color-bg-input: #F8FAFC;
+    --color-border: #E2E8F0;
+    --color-border-focus: rgba(232, 93, 4, 0.1);
+    --color-success-bg: #FFF5F5;
+    --color-success-border: #ffdfdf;
+
+    /* Text Colors */
+    --color-text-main: #222222;
+    --color-text-muted: #555555;
+    --color-text-inverse: #FFFFFF;
+    --color-text-primary: #E85D04;
+
+    /* Decoration Colors */
+    --color-decoration: #595B2A;
+    /* Mehendi / Olive tone */
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing System */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+    --spacing-20: 5rem;
+    --spacing-24: 6rem;
+
+    /* Layout constraints */
+    --max-w-reading: 800px;
+    --max-w-container: 1000px;
+
+    /* Borders and Effects */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* Festive Glows */
+    --glow-primary: 0 0 15px rgba(232, 93, 4, 0.4);
+    --glow-secondary: 0 0 15px rgba(167, 20, 0, 0.35), 0 0 40px rgba(167, 20, 0, 0.1);
+
+    /* Ember / Spark Colors (for particle effects and cultural patterns) */
+    --ember-color-1: #FF8C00;
+    --ember-color-2: #E85D04;
+    --ember-color-3: #FFB703;
+
+    /* RGB Triplets (for rgba() usage in glassmorphism, overlays, etc.) */
+    --color-primary-rgb: 232, 93, 4;
+    --color-gold-rgb: 255, 183, 3;
+    --color-bg-surface-rgb: 255, 255, 255;
+    --color-bg-base-rgb: 250, 250, 250;
+
+    /* Decorative Pattern System */
+    --pattern-opacity: 0.04;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(
+        180deg,
+        #1A1A1A 0%,
+        #2A1A0A 40%,
+        #3D1E00 70%,
+        rgba(232, 93, 4, 0.1) 100%
+    );
+    --gradient-accent: linear-gradient(135deg, #E85D04, #FF8C00, #FFB703);
+}
+
+.theme-premium-heritage {
+    --color-primary: #C5283D;
+    --color-primary-hover: #9D2031;
+    --color-secondary: #E9724C;
+    --color-bg-base: #FDFBF7;
+    --color-bg-base-rgb: 253, 251, 247;
+    --color-bg-surface: #FFFFFF;
+    --color-bg-surface-rgb: 255, 255, 255;
+    --color-bg-input: #FFFFFF;
+    --color-border: #E8E5DF;
+    --color-border-focus: rgba(197, 40, 61, 0.1);
+    --color-text-main: #2C241f;
+    --color-text-muted: #5C4D42;
+    --color-text-primary: #C5283D;
+    --glow-primary: 0 0 15px rgba(197, 40, 61, 0.4);
+    --glow-secondary: 0 0 15px rgba(233, 114, 76, 0.35), 0 0 40px rgba(233, 114, 76, 0.1);
+    --ember-color-1: #C5283D;
+    --ember-color-2: #E9724C;
+    --ember-color-3: #FF9B6A;
+    --color-primary-rgb: 197, 40, 61;
+    --color-gold-rgb: 255, 183, 3;
+    --pattern-opacity: 0.04;
+    --gradient-hero: linear-gradient(180deg, #2C1015 0%, #3D1520 50%, rgba(197, 40, 61, 0.1) 100%);
+    --gradient-accent: linear-gradient(135deg, #C5283D, #E9724C);
+}
+
+.theme-modern-festival {
+    --color-primary: #FF6B35;
+    --color-primary-hover: #E55A26;
+    --color-secondary: #254441;
+    --color-bg-base: #F4F1EA;
+    --color-bg-base-rgb: 244, 241, 234;
+    --color-bg-surface: #FCFAF6;
+    --color-bg-surface-rgb: 252, 250, 246;
+    --color-bg-input: #EAEAEF;
+    --color-border: #D1D1DE;
+    --color-border-focus: rgba(255, 107, 53, 0.1);
+    --color-text-main: #2B2A27;
+    --color-text-muted: #646059;
+    --color-text-primary: #FF6B35;
+    --glow-primary: 0 0 15px rgba(255, 107, 53, 0.4);
+    --glow-secondary: 0 0 15px rgba(37, 68, 65, 0.35), 0 0 40px rgba(37, 68, 65, 0.1);
+    --ember-color-1: #FF6B35;
+    --ember-color-2: #FF8C5A;
+    --ember-color-3: #FFB088;
+    --color-primary-rgb: 255, 107, 53;
+    --color-gold-rgb: 255, 183, 3;
+    --pattern-opacity: 0.04;
+    --gradient-hero: linear-gradient(180deg, #1A2A28 0%, #254441 50%, rgba(255, 107, 53, 0.1) 100%);
+    --gradient-accent: linear-gradient(135deg, #FF6B35, #254441);
+}
+
+.theme-earthy-grounded {
+    --color-primary: #B85042;
+    --color-primary-hover: #944035;
+    --color-secondary: #E7E8D1;
+    --color-bg-base: #FAFAFA;
+    --color-bg-base-rgb: 250, 250, 250;
+    --color-bg-surface: #FFFFFF;
+    --color-bg-surface-rgb: 255, 255, 255;
+    --color-bg-input: #F0F0F0;
+    --color-border: #DDDDDD;
+    --color-border-focus: rgba(184, 80, 66, 0.1);
+    --color-text-main: #333333;
+    --color-text-muted: #555555;
+    --color-text-primary: #B85042;
+    --glow-primary: 0 0 15px rgba(184, 80, 66, 0.4);
+    --glow-secondary: 0 0 15px rgba(231, 232, 209, 0.35), 0 0 40px rgba(231, 232, 209, 0.1);
+    --ember-color-1: #B85042;
+    --ember-color-2: #D4705F;
+    --ember-color-3: #E7E8D1;
+    --color-primary-rgb: 184, 80, 66;
+    --color-gold-rgb: 255, 183, 3;
+    --pattern-opacity: 0.04;
+    --gradient-hero: linear-gradient(180deg, #2A1A15 0%, #3D2820 50%, rgba(184, 80, 66, 0.1) 100%);
+    --gradient-accent: linear-gradient(135deg, #B85042, #E7E8D1);
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: var(--spacing-4);
+    color: var(--color-text-main);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+}
+
+/* Layout Classes */
+.container {
+    max-width: var(--max-w-container);
+    margin: 0 auto;
+    padding: 0 var(--spacing-4);
+}
+
+.reading-container {
+    max-width: var(--max-w-reading);
+    margin: 0 auto;
+    padding: 0 var(--spacing-4);
+}
+
+/* UI Components */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--glow-primary);
+    color: var(--color-text-inverse);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-inverse);
+}
+
+/* Card Component */
+.card {
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Form Inputs */
+.form-group {
+    margin-bottom: var(--spacing-4);
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--spacing-2);
+    color: var(--color-text-main);
+    font-size: 0.9rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--color-bg-input);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-border-focus);
+    background-color: var(--color-bg-surface);
+}
+
+/* 
+========================================================================== 
+UTILITIES: Glassmorphism & Depth
+========================================================================== 
+*/
+
+.glass-panel {
+    /* Frosted glass effect */
+    background: rgba(var(--color-bg-surface-rgb), 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    /* Depth and separation */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(var(--color-bg-surface-rgb), 0.4);
+
+    /* Rounded look */
+    border-radius: var(--radius-lg);
+
+    /* Content spacing */
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+    /* Float above the BowDecoration */
+}
+
+@media (max-width: 768px) {
+    .glass-panel {
+        padding: 1.5rem;
+        backdrop-filter: blur(8px);
+        /* less expensive on mobile */
+    }
+}
+
+/* Animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for children */
+.reveal-delay-100 {
+    transition-delay: 100ms;
+}
+
+.reveal-delay-200 {
+    transition-delay: 200ms;
+}
+
+.reveal-delay-300 {
+    transition-delay: 300ms;
+}
+
+.reveal-delay-400 {
+    transition-delay: 400ms;
+}
+
+.reveal-delay-500 {
+    transition-delay: 500ms;
+}
+

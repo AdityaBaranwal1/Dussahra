@@ -1,0 +1,35 @@
+.rangoli-container {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-8) 0;
+    overflow: hidden;
+}
+
+.rangoli-svg {
+    width: 300px;
+    height: 300px;
+    max-width: 80vw;
+}
+
+.rangoli-path {
+    fill-opacity: 0;
+}
+
+@media (max-width: 768px) {
+    .rangoli-svg {
+        width: 220px;
+        height: 220px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rangoli-path {
+        stroke-dasharray: none !important;
+        stroke-dashoffset: 0 !important;
+        fill-opacity: 0.06;
+    }
+
+    .rangoli-dot {
+        transform: none !important;
+    }
+}

@@ -1,0 +1,33 @@
+.garland-divider {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-8);
+    display: block;
+    overflow: visible;
+}
+
+/* Idle sway animation after entry */
+.garland-flower {
+    animation: garlandSway 3s ease-in-out infinite alternate;
+    transform-origin: 50% 0%;
+}
+
+.garland-flower:nth-child(odd) {
+    animation-duration: 3.3s;
+}
+
+.garland-flower:nth-child(3n) {
+    animation-duration: 2.8s;
+    animation-delay: 0.5s;
+}
+
+@keyframes garlandSway {
+    0% { transform: rotate(-2deg); }
+    100% { transform: rotate(2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .garland-flower {
+        animation: none;
+    }
+}

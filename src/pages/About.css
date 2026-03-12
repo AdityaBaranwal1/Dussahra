@@ -1,0 +1,82 @@
+.about-page {
+    padding-bottom: var(--spacing-16);
+}
+
+.page-header {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-inverse);
+    padding: var(--spacing-16) 0;
+    text-align: center;
+    margin-bottom: var(--spacing-12);
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&q=80&w=1200');
+    background-size: cover;
+    background-position: center;
+}
+
+.page-title {
+    color: var(--color-gold);
+    font-size: 3rem;
+    margin-bottom: var(--spacing-2);
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+.about-content {
+    font-size: 1.1rem;
+}
+
+.about-section {
+    margin-bottom: var(--spacing-12);
+}
+
+.about-section h2 {
+    color: var(--color-primary);
+    font-size: 2rem;
+    border-bottom: 2px solid var(--color-primary);
+    display: inline-block;
+    padding-bottom: var(--spacing-2);
+    margin-bottom: var(--spacing-6);
+}
+
+.about-section p {
+    margin-bottom: var(--spacing-4);
+}
+
+.mission-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mission-list li {
+    margin-bottom: var(--spacing-4);
+    background: var(--color-bg-surface);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--color-primary);
+}
+
+.message-section blockquote {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    text-align: center;
+    position: relative;
+    padding: var(--spacing-6);
+}
+
+.message-section blockquote::before {
+    content: '"';
+    color: rgba(232, 93, 4, 0.2);
+    font-size: 6rem;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: serif;
+}

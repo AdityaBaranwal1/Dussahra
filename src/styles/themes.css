@@ -1,0 +1,339 @@
+/* ==========================================================================
+   DUSSEHRA FESTIVAL THEMES
+   ==========================================================================
+   Four dramatically different visual interpretations of the Dussehra festival,
+   each rooted in a distinct cultural moment of the celebration.
+
+   Theme system: Each class overrides CSS custom properties on
+   document.documentElement. All themes define the full property set to
+   ensure no fallback bleed-through.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   THEME 1: RAVANA DAHAN — "The Burning"
+   ==========================================================================
+   Cultural inspiration: The climactic moment of Dussehra — the towering
+   effigy of Ravana set ablaze against the night sky. Thousands gather as
+   fire consumes the demon king, embers spiraling upward into indigo darkness.
+
+   Design language: Cinematic dark mode. Deep charcoal and indigo serve as
+   the void of night; amber-orange is pure fire cutting through the darkness.
+   Every interactive element glows like a coal. The palette is deliberately
+   narrow — darkness and flame — to create maximum dramatic impact.
+
+   Accessibility: High contrast ensured — warm off-white text (#F0E6D3)
+   against dark backgrounds exceeds WCAG AA. Fire-orange accents are used
+   for decoration and interactive elements, never as the sole text color
+   on dark backgrounds without sufficient size/weight.
+   ========================================================================== */
+
+.theme-ravana-dahan {
+    /* --- Fire: The primary action color --- */
+    --color-primary: #FF7A00;
+    --color-primary-hover: #FF9B40;
+    --color-primary-rgb: 255, 122, 0;
+
+    /* --- Night sky tones --- */
+    --color-secondary: #3D2C6B;
+    --color-accent: #E63900;
+
+    /* --- Molten gold, like liquid metal --- */
+    --color-gold: #FFBE0A;
+    --color-gold-rgb: 255, 190, 10;
+
+    /* --- The void: deep charcoal with faint indigo warmth --- */
+    --color-bg-base: #0F0F1A;
+    --color-bg-base-rgb: 15, 15, 26;
+    --color-bg-surface: #1A1A2E;
+    --color-bg-surface-rgb: 26, 26, 46;
+    --color-bg-dark: #080810;
+    --color-bg-input: #252540;
+
+    /* --- Borders: dark with a warm ember kiss --- */
+    --color-border: #3A3550;
+    --color-border-focus: rgba(255, 122, 0, 0.25);
+
+    /* --- Success: muted teal-green that doesn't clash with fire palette --- */
+    --color-success-bg: rgba(34, 197, 94, 0.1);
+    --color-success-border: rgba(34, 197, 94, 0.3);
+
+    /* --- Text: warm parchment lit by firelight --- */
+    --color-text-main: #F0E6D3;
+    --color-text-muted: #A09585;
+    --color-text-inverse: #0F0F1A;
+    --color-text-primary: #FF9B40;
+
+    /* --- Mehendi green darkened for night --- */
+    --color-decoration: #8B8B5E;
+
+    /* --- Glow: embers in the dark --- */
+    --glow-primary: 0 0 20px rgba(255, 122, 0, 0.5), 0 0 60px rgba(255, 122, 0, 0.15);
+    --glow-secondary: 0 0 20px rgba(230, 57, 0, 0.4), 0 0 50px rgba(230, 57, 0, 0.1);
+
+    /* --- Ember particle colors --- */
+    --ember-color-1: #FF7A00;
+    --ember-color-2: #FF4500;
+    --ember-color-3: #FFBE0A;
+
+    /* --- Patterns pop against dark backgrounds --- */
+    --pattern-opacity: 0.08;
+
+    /* --- Gradients --- */
+    --gradient-hero: linear-gradient(
+        180deg,
+        #0D0B1E 0%,
+        #12101F 30%,
+        #1A1520 60%,
+        #1E1510 80%,
+        rgba(255, 122, 0, 0.08) 100%
+    );
+    --gradient-accent: linear-gradient(135deg, #FF7A00, #E63900);
+}
+
+
+/* ==========================================================================
+   THEME 2: VIJAYA — "Victory / Triumph"
+   ==========================================================================
+   Cultural inspiration: Vijaya Dashami — Lord Rama's triumph over Ravana.
+   Rama, depicted with luminous blue skin, embodies dharma victorious. This
+   theme channels the regal grandeur of that divine moment: royal blue (the
+   color of Rama) paired with imperial gold (the reward of righteousness).
+
+   Design language: Light, majestic, authoritative. Warm ivory parchment
+   grounds the composition; deep royal blue commands attention. Gold accents
+   are restrained and antique — regal, never garish. Think palace corridors,
+   illuminated manuscripts, Tanishq jewelry campaigns.
+
+   Accessibility: Dark navy text (#1A1A3A) on warm cream (#FDFAF5) provides
+   excellent contrast (13:1+). Royal blue primary is large enough or bold
+   enough wherever it appears as text.
+   ========================================================================== */
+
+.theme-vijaya {
+    /* --- Rama's divine blue --- */
+    --color-primary: #1B4B8A;
+    --color-primary-hover: #153D70;
+    --color-primary-rgb: 27, 75, 138;
+
+    /* --- Saffron of dharma --- */
+    --color-secondary: #D47B1E;
+    --color-accent: #C49B2A;
+
+    /* --- Antique imperial gold --- */
+    --color-gold: #C49B2A;
+    --color-gold-rgb: 196, 155, 42;
+
+    /* --- Royal parchment --- */
+    --color-bg-base: #FDFAF5;
+    --color-bg-base-rgb: 253, 250, 245;
+    --color-bg-surface: #FFFFFF;
+    --color-bg-surface-rgb: 255, 255, 255;
+    --color-bg-dark: #0F1B33;
+    --color-bg-input: #F5F2EC;
+
+    /* --- Gold-kissed borders --- */
+    --color-border: #E0D8C8;
+    --color-border-focus: rgba(27, 75, 138, 0.15);
+
+    /* --- Success: regal green, not neon --- */
+    --color-success-bg: #F0F8F0;
+    --color-success-border: #C5DFC5;
+
+    /* --- Deep authoritative navy --- */
+    --color-text-main: #1A1A3A;
+    --color-text-muted: #6B7B8D;
+    --color-text-inverse: #FFFFFF;
+    --color-text-primary: #1B4B8A;
+
+    /* --- Olive-gold decoration --- */
+    --color-decoration: #7A7040;
+
+    /* --- Glow: gold shimmer on blue depth --- */
+    --glow-primary: 0 0 15px rgba(196, 155, 42, 0.35), 0 0 40px rgba(196, 155, 42, 0.1);
+    --glow-secondary: 0 0 15px rgba(27, 75, 138, 0.3), 0 0 40px rgba(27, 75, 138, 0.08);
+
+    /* --- Ember colors: golden ceremonial sparks --- */
+    --ember-color-1: #D4A843;
+    --ember-color-2: #C49B2A;
+    --ember-color-3: #E8C55A;
+
+    /* --- Moderate pattern visibility --- */
+    --pattern-opacity: 0.05;
+
+    /* --- Gradients --- */
+    --gradient-hero: linear-gradient(
+        180deg,
+        #0F1B33 0%,
+        #152952 35%,
+        #1B3A6B 65%,
+        rgba(196, 155, 42, 0.15) 100%
+    );
+    --gradient-accent: linear-gradient(135deg, #C49B2A, #D4A843, #E8C55A);
+}
+
+
+/* ==========================================================================
+   THEME 3: SHAKTI — "Divine Feminine Power"
+   ==========================================================================
+   Cultural inspiration: Goddess Durga's fierce grace. The nine nights of
+   Navratri that precede Dussehra celebrate the divine feminine — Shakti.
+   Vermilion (sindoor) is Durga's color: applied at the parting of hair,
+   smeared on foreheads, draped across pandals. This is power expressed
+   through beauty, ferocity through elegance.
+
+   Design language: Vermilion-forward with deep magenta undertones. The
+   warmth of sindoor dominates; magenta provides mysterious depth. Gold
+   accents are burnished and ancient, like temple jewelry. The base is
+   rose-tinted marble — warm, not clinical.
+
+   Accessibility: Deep burgundy-black text (#2A1015) on rose-white (#FDF8F6)
+   provides excellent contrast. Vermilion primary (#C41E3A) meets AA for
+   large text and is always paired with sufficient weight/size.
+   ========================================================================== */
+
+.theme-shakti {
+    /* --- Sindoor vermilion: Durga's power --- */
+    --color-primary: #C41E3A;
+    --color-primary-hover: #A81830;
+    --color-primary-rgb: 196, 30, 58;
+
+    /* --- Ritual magenta: Shakti energy --- */
+    --color-secondary: #8B1A4A;
+    --color-accent: #A02055;
+
+    /* --- Burnished temple gold --- */
+    --color-gold: #B8860B;
+    --color-gold-rgb: 184, 134, 11;
+
+    /* --- Rose-tinted marble --- */
+    --color-bg-base: #FDF8F6;
+    --color-bg-base-rgb: 253, 248, 246;
+    --color-bg-surface: #FFFFFF;
+    --color-bg-surface-rgb: 255, 255, 255;
+    --color-bg-dark: #2A0A15;
+    --color-bg-input: #FBF2EE;
+
+    /* --- Soft rose-blush borders --- */
+    --color-border: #EADAD5;
+    --color-border-focus: rgba(196, 30, 58, 0.15);
+
+    /* --- Success: soft sage, complementary to red palette --- */
+    --color-success-bg: #F2F8F2;
+    --color-success-border: #C8DCC8;
+
+    /* --- Deep burgundy-black: warm darkness --- */
+    --color-text-main: #2A1015;
+    --color-text-muted: #8C7075;
+    --color-text-inverse: #FFFFFF;
+    --color-text-primary: #C41E3A;
+
+    /* --- Antiqued rose-olive --- */
+    --color-decoration: #6B5040;
+
+    /* --- Glow: fierce crimson radiance --- */
+    --glow-primary: 0 0 15px rgba(196, 30, 58, 0.4), 0 0 40px rgba(196, 30, 58, 0.1);
+    --glow-secondary: 0 0 15px rgba(160, 32, 85, 0.35), 0 0 40px rgba(160, 32, 85, 0.08);
+
+    /* --- Ember colors: crimson sparks like scattered rose petals --- */
+    --ember-color-1: #E63050;
+    --ember-color-2: #C41E3A;
+    --ember-color-3: #FF6B85;
+
+    /* --- Moderate pattern presence --- */
+    --pattern-opacity: 0.05;
+
+    /* --- Gradients --- */
+    --gradient-hero: linear-gradient(
+        180deg,
+        #3D0A1E 0%,
+        #5C1030 30%,
+        #8B1A4A 60%,
+        rgba(184, 134, 11, 0.12) 100%
+    );
+    --gradient-accent: linear-gradient(135deg, #C41E3A, #A02055, #8B1A4A);
+}
+
+
+/* ==========================================================================
+   THEME 4: DEEPOTSAV — "Festival of Lights"
+   ==========================================================================
+   Cultural inspiration: After Rama's victory, Ayodhya was illuminated with
+   thousands of clay diyas (oil lamps) to welcome him home. Deepotsav is
+   that moment — twilight settling as a thousand golden flames paint the
+   world in amber and marigold. The peacock (Rama's royal bird) adds flashes
+   of teal-green amidst the warmth.
+
+   Design language: Warm, enveloping, celebratory. Everything feels lit by
+   lamplight — cream and amber dominate. Peacock teal provides strategic
+   cool contrast, like a jewel among flames. The palette is the widest of
+   the four, reflecting the joyous abundance of celebration.
+
+   Accessibility: Warm dark brown text (#2C1810) on twilight cream (#FFF8ED)
+   achieves excellent contrast (14:1+). Amber primary is reinforced with
+   sufficient weight on light backgrounds.
+   ========================================================================== */
+
+.theme-deepotsav {
+    /* --- Diya flame amber --- */
+    --color-primary: #D4760A;
+    --color-primary-hover: #B86508;
+    --color-primary-rgb: 212, 118, 10;
+
+    /* --- Marigold garland --- */
+    --color-secondary: #E6960A;
+    /* --- Peacock teal: cool jewel-tone contrast --- */
+    --color-accent: #0D7377;
+
+    /* --- Bright ceremonial gold --- */
+    --color-gold: #E6B422;
+    --color-gold-rgb: 230, 180, 34;
+
+    /* --- Candlelit parchment --- */
+    --color-bg-base: #FFF8ED;
+    --color-bg-base-rgb: 255, 248, 237;
+    --color-bg-surface: #FFFDF8;
+    --color-bg-surface-rgb: 255, 253, 248;
+    --color-bg-dark: #1A1008;
+    --color-bg-input: #FFF5E6;
+
+    /* --- Warm golden borders --- */
+    --color-border: #E8DCC5;
+    --color-border-focus: rgba(212, 118, 10, 0.15);
+
+    /* --- Success: warm sage that fits the golden palette --- */
+    --color-success-bg: #F5F8F0;
+    --color-success-border: #D0DEC0;
+
+    /* --- Carved wood: warm dark brown --- */
+    --color-text-main: #2C1810;
+    --color-text-muted: #7A6555;
+    --color-text-inverse: #FFFFFF;
+    --color-text-primary: #B86508;
+
+    /* --- Earthy olive decoration --- */
+    --color-decoration: #6B6030;
+
+    /* --- Glow: warm lamplight --- */
+    --glow-primary: 0 0 15px rgba(230, 180, 34, 0.4), 0 0 40px rgba(230, 180, 34, 0.12);
+    --glow-secondary: 0 0 15px rgba(212, 118, 10, 0.35), 0 0 40px rgba(212, 118, 10, 0.1);
+
+    /* --- Ember colors: floating lamp flames --- */
+    --ember-color-1: #F0C040;
+    --ember-color-2: #FFE0A0;
+    --ember-color-3: #E6960A;
+
+    /* --- Moderate pattern visibility --- */
+    --pattern-opacity: 0.05;
+
+    /* --- Gradients: sunset into twilight lamplight --- */
+    --gradient-hero: linear-gradient(
+        180deg,
+        #1A1040 0%,
+        #2E1850 20%,
+        #6B2A30 45%,
+        #D4760A 75%,
+        rgba(230, 180, 34, 0.2) 100%
+    );
+    --gradient-accent: linear-gradient(135deg, #D4760A, #E6960A, #E6B422);
+}

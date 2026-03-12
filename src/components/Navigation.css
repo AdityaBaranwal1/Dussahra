@@ -1,0 +1,299 @@
+.navbar {
+    background-color: var(--color-bg-surface);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+}
+
+.nav-item {
+    margin-left: var(--spacing-6);
+}
+
+.nav-links {
+    color: var(--color-text-main);
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 10px 16px;
+    display: inline-block;
+    margin: 0;
+}
+
+.nav-hover-frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* =============================================
+   Floral Corner Ornaments & Connecting Borders
+   
+   The four corners have vine curls. On hover,
+   the borders expand to 50% width/height, meeting
+   in the center to form a complete floral frame.
+   ============================================= */
+
+/* Shared base for all 4 corner pseudo-elements */
+.nav-links::before,
+.nav-links::after,
+.nav-hover-frame::before,
+.nav-hover-frame::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 0 solid var(--color-primary);
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.3s ease;
+    opacity: 0;
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+/* Top-left corner */
+.nav-links::before {
+    top: 0;
+    left: 0;
+    border-top-width: 1.5px;
+    border-left-width: 1.5px;
+    border-top-left-radius: 6px;
+    background-position: top left;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M2 2C2 2 8 2 12 6C16 10 14 16 10 18C6 20 4 16 6 12C8 8 14 6 18 4' stroke='%23E85D04' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M12 6C14 8 16 14 12 18C8 22 4 20 4 16' stroke='%23E85D04' stroke-width='1' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='10' cy='12' r='1.5' fill='%23E85D04' opacity='0.6'/%3E%3Ccircle cx='6' cy='6' r='1' fill='%23E85D04' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Top-right corner */
+.nav-links::after {
+    top: 0;
+    right: 0;
+    border-top-width: 1.5px;
+    border-right-width: 1.5px;
+    border-top-right-radius: 6px;
+    background-position: top right;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M38 2C38 2 32 2 28 6C24 10 26 16 30 18C34 20 36 16 34 12C32 8 26 6 22 4' stroke='%23E85D04' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M28 6C26 8 24 14 28 18C32 22 36 20 36 16' stroke='%23E85D04' stroke-width='1' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='30' cy='12' r='1.5' fill='%23E85D04' opacity='0.6'/%3E%3Ccircle cx='34' cy='6' r='1' fill='%23E85D04' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Bottom-left corner */
+.nav-hover-frame::before {
+    bottom: 0;
+    left: 0;
+    border-bottom-width: 1.5px;
+    border-left-width: 1.5px;
+    border-bottom-left-radius: 6px;
+    background-position: bottom left;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M2 38C2 38 8 38 12 34C16 30 14 24 10 22C6 20 4 24 6 28C8 32 14 34 18 36' stroke='%23E85D04' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M12 34C14 32 16 26 12 22C8 18 4 20 4 24' stroke='%23E85D04' stroke-width='1' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='10' cy='28' r='1.5' fill='%23E85D04' opacity='0.6'/%3E%3Ccircle cx='6' cy='34' r='1' fill='%23E85D04' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Bottom-right corner */
+.nav-hover-frame::after {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: 1.5px;
+    border-right-width: 1.5px;
+    border-bottom-right-radius: 6px;
+    background-position: bottom right;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M38 38C38 38 32 38 28 34C24 30 26 24 30 22C34 20 36 24 34 28C32 32 26 34 22 36' stroke='%23E85D04' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M28 34C26 32 24 26 28 22C32 18 36 20 36 24' stroke='%23E85D04' stroke-width='1' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='30' cy='28' r='1.5' fill='%23E85D04' opacity='0.6'/%3E%3Ccircle cx='34' cy='34' r='1' fill='%23E85D04' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* =============================================
+   Hover: corners bloom outward and borders meet
+   ============================================= */
+.nav-links:hover::before,
+.nav-links:hover::after,
+.nav-links:hover .nav-hover-frame::before,
+.nav-links:hover .nav-hover-frame::after {
+    opacity: 1;
+    width: 50%;
+    height: 50%;
+}
+
+/* Active state — always show the floral frame at reduced opacity */
+.nav-links.active::before,
+.nav-links.active::after,
+.nav-links.active .nav-hover-frame::before,
+.nav-links.active .nav-hover-frame::after {
+    opacity: 0.5;
+    width: 50%;
+    height: 50%;
+}
+
+.nav-links:hover,
+.nav-links.active {
+    color: var(--color-primary);
+}
+
+/* Dropdown chevron */
+.dropdown-chevron {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.has-dropdown:hover .dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+/* Dropdown container */
+.has-dropdown {
+    position: relative;
+    margin-left: var(--spacing-6);
+}
+
+.nav-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--color-bg-surface);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-md);
+    min-width: 180px;
+    padding: var(--spacing-2) 0;
+    list-style: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.has-dropdown:hover .nav-dropdown {
+    display: block;
+}
+
+/* Dropdown items: full-width blocks with no floral ornaments */
+.nav-dropdown li {
+    display: block;
+}
+
+.nav-dropdown .nav-links {
+    padding: var(--spacing-3) var(--spacing-4);
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, color 0.3s ease;
+}
+
+.nav-dropdown .nav-links:hover {
+    background-color: var(--color-bg-input);
+}
+
+/* Disable floral corner ornaments inside dropdowns */
+.nav-dropdown .nav-links::before,
+.nav-dropdown .nav-links::after,
+.nav-dropdown .nav-hover-frame::before,
+.nav-dropdown .nav-hover-frame::after {
+    display: none;
+}
+
+.nav-item-btn {
+    margin-left: var(--spacing-6);
+}
+
+.nav-btn {
+    padding: var(--spacing-2) var(--spacing-4);
+}
+
+.menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 960px) {
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        opacity: 1;
+        transition: all 0.5s ease;
+        background-color: var(--color-bg-surface);
+        box-shadow: var(--shadow-md);
+        padding-bottom: var(--spacing-6);
+        visibility: hidden;
+    }
+
+    .nav-menu.active {
+        left: 0;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-item,
+    .nav-item-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-top: var(--spacing-4);
+    }
+
+    .nav-links {
+        text-align: center;
+        width: 100%;
+        display: table;
+    }
+
+    .nav-btn {
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+    }
+
+    .menu-icon {
+        display: block;
+        color: var(--color-text-main);
+    }
+
+    /* Mobile dropdowns */
+    .has-dropdown {
+        width: 100%;
+        margin-left: 0;
+        margin-top: var(--spacing-4);
+    }
+
+    .nav-dropdown {
+        position: static;
+        box-shadow: none;
+        background: transparent;
+        padding-left: var(--spacing-6);
+    }
+
+    .has-dropdown:hover .nav-dropdown {
+        display: none;
+    }
+
+    .has-dropdown.dropdown-open .nav-dropdown {
+        display: block;
+    }
+
+    .has-dropdown.dropdown-open .dropdown-chevron {
+        transform: rotate(180deg);
+    }
+}
