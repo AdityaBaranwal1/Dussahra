@@ -6,17 +6,20 @@
     overflow: visible;
 }
 
-/* Idle sway animation after entry */
+/* Idle sway animation — only after GSAP entry completes */
 .garland-flower {
-    animation: garlandSway 3s ease-in-out infinite alternate;
     transform-origin: 50% 0%;
 }
 
-.garland-flower:nth-child(odd) {
+.garland-sway-active .garland-flower {
+    animation: garlandSway 3s ease-in-out infinite alternate;
+}
+
+.garland-sway-active .garland-flower:nth-child(odd) {
     animation-duration: 3.3s;
 }
 
-.garland-flower:nth-child(3n) {
+.garland-sway-active .garland-flower:nth-child(3n) {
     animation-duration: 2.8s;
     animation-delay: 0.5s;
 }
@@ -27,7 +30,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .garland-flower {
+    .garland-sway-active .garland-flower {
         animation: none;
     }
 }

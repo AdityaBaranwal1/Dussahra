@@ -1,6 +1,9 @@
 .navbar {
-    background-color: var(--color-bg-surface);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: rgba(10, 10, 11, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    box-shadow: none;
     position: sticky;
     top: 0;
     z-index: 999;
@@ -38,9 +41,12 @@
     font-size: 1rem;
     transition: color 0.3s ease;
     position: relative;
-    padding: 10px 16px;
-    display: inline-block;
+    padding: var(--spacing-2) var(--spacing-4);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
     margin: 0;
+    white-space: nowrap;
 }
 
 .nav-hover-frame {
@@ -127,7 +133,11 @@
 .nav-links:hover::before,
 .nav-links:hover::after,
 .nav-links:hover .nav-hover-frame::before,
-.nav-links:hover .nav-hover-frame::after {
+.nav-links:hover .nav-hover-frame::after,
+.nav-links:focus-visible::before,
+.nav-links:focus-visible::after,
+.nav-links:focus-visible .nav-hover-frame::before,
+.nav-links:focus-visible .nav-hover-frame::after {
     opacity: 1;
     width: 50%;
     height: 50%;
@@ -144,19 +154,24 @@
 }
 
 .nav-links:hover,
+.nav-links:focus-visible,
 .nav-links.active {
     color: var(--color-primary);
 }
 
+.nav-links:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
 /* Dropdown chevron */
 .dropdown-chevron {
-    display: inline-block;
-    margin-left: 4px;
-    vertical-align: middle;
     transition: transform 0.3s ease;
 }
 
-.has-dropdown:hover .dropdown-chevron {
+.has-dropdown:hover .dropdown-chevron,
+.has-dropdown:focus-within .dropdown-chevron {
     transform: rotate(180deg);
 }
 
@@ -171,8 +186,11 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--color-bg-surface);
-    box-shadow: var(--shadow-lg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border-radius: var(--radius-md);
     min-width: 180px;
     padding: var(--spacing-2) 0;
@@ -181,7 +199,8 @@
     overflow: hidden;
 }
 
-.has-dropdown:hover .nav-dropdown {
+.has-dropdown:hover .nav-dropdown,
+.has-dropdown:focus-within .nav-dropdown {
     display: block;
 }
 
@@ -201,7 +220,7 @@
 }
 
 .nav-dropdown .nav-links:hover {
-    background-color: var(--color-bg-input);
+    background-color: rgba(255, 122, 0, 0.08);
 }
 
 /* Disable floral corner ornaments inside dropdowns */
@@ -218,31 +237,48 @@
 
 .nav-btn {
     padding: var(--spacing-2) var(--spacing-4);
+    white-space: nowrap;
 }
 
 .menu-icon {
     display: none;
     cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: var(--spacing-2);
 }
 
-@media screen and (max-width: 960px) {
+.menu-icon:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+@media screen and (max-width: 1024px) {
     .nav-menu {
         display: flex;
         flex-direction: column;
         width: 100%;
         position: absolute;
         top: 80px;
-        left: -100%;
+        left: 0;
+        transform: translateX(-100%);
         opacity: 1;
-        transition: all 0.5s ease;
-        background-color: var(--color-bg-surface);
-        box-shadow: var(--shadow-md);
+        transition: transform 0.5s ease, visibility 0.5s ease;
+        background-color: rgba(10, 10, 11, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         padding-bottom: var(--spacing-6);
         visibility: hidden;
     }
 
     .nav-menu.active {
-        left: 0;
+        transform: translateX(0);
         opacity: 1;
         visibility: visible;
     }
@@ -258,6 +294,8 @@
         text-align: center;
         width: 100%;
         display: table;
+        min-height: 44px;
+        padding: var(--spacing-3) var(--spacing-4);
     }
 
     .nav-btn {
@@ -267,7 +305,7 @@
     }
 
     .menu-icon {
-        display: block;
+        display: flex;
         color: var(--color-text-main);
     }
 

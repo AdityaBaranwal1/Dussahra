@@ -32,10 +32,6 @@ export const EventLocation = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Decorative festive overlay elements */}
-            <div className="festive-decor-left"></div>
-            <div className="festive-decor-right"></div>
         </section>
     );
 };

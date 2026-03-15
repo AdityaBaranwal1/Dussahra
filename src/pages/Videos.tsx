@@ -9,18 +9,18 @@ const VIDEO_DATA = [
 
 export const Videos = () => {
     return (
-        <div className="media-page" style={{ position: 'relative' }}>
-            <div className="page-header" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="media-page pos-relative">
+            <div className="page-header z-2">
                 <div className="container">
                     <h1 className="page-title text-shimmer">Video Highlights</h1>
                     <p className="page-subtitle">Watch the magic of the festival unfold</p>
                 </div>
             </div>
 
-            <div className="container" style={{ marginTop: 'var(--spacing-8)', position: 'relative', zIndex: 2 }}>
+            <div className="container mt-spacing-8 z-2">
                 <div className="media-grid">
                     {VIDEO_DATA.map((video, i) => (
-                        <div key={video.id} className={`media-card reveal reveal-delay-${(i % 3 + 1) * 100}`} style={{ padding: '0', backgroundColor: 'var(--color-bg-dark)' }}>
+                        <div key={video.id} className={`media-card video-card-inner reveal reveal-delay-${(i % 3 + 1) * 100}`}>
                             <iframe
                                 width="100%"
                                 height="100%"
@@ -29,7 +29,7 @@ export const Videos = () => {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                                style={{ position: 'absolute', top: 0, left: 0 }}
+                                className="video-iframe"
                             ></iframe>
                         </div>
                     ))}

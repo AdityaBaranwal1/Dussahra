@@ -102,7 +102,7 @@ const FAMILY_DATA: FamilySection[] = [
 ];
 
 const PersonPlaceholderIcon = () => (
-    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="28" cy="20" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
         <path
             d="M8 48c0-11.046 8.954-20 20-20s20 8.954 20 20"
@@ -156,7 +156,7 @@ export const Family = () => {
 
             <RangoliIntro />
 
-            <div className="family-intro glass-panel lotus-watermark reveal" style={{ marginTop: 'var(--spacing-8)' }}>
+            <div className="family-intro glass-panel lotus-watermark reveal mt-spacing-8">
                 <p>
                     Indo-American Festivals is more than an organization — it is a family bound by shared love
                     for our cultural heritage. From the visionary founders who lit the first Ravan effigy in 1999

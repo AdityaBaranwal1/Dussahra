@@ -3,7 +3,9 @@
     "allow": [
       "Bash(dir)",
       "Bash(npm run:*)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:uiverse.io)",
+      "Bash(cd \"F:/Code/Dussahra \\(NEW\\)\" && npx tsc --noEmit 2>&1 | head -30)"
     ]
   }
 }

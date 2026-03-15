@@ -11,7 +11,7 @@ export const About = () => {
                 </div>
             </div>
 
-            <div className="reading-container about-content glass-panel lotus-watermark" style={{ marginTop: 'var(--spacing-8)' }}>
+            <div className="reading-container about-content glass-panel lotus-watermark mt-spacing-8">
                 <section className="about-section reveal reveal-left">
                     <h2><span className="text-gradient">How it Started</span></h2>
                     <p>

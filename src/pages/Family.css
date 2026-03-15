@@ -225,7 +225,7 @@
 
 /* Special styling for founder cards */
 .family-card--founder .family-card-photo-wrap::before {
-    background: linear-gradient(135deg, var(--color-gold), #e8b84d, var(--color-gold)) border-box;
+    background: linear-gradient(135deg, var(--color-gold), var(--color-primary), var(--color-gold)) border-box;
     opacity: 0.85;
 }
 

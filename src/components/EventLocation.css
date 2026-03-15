@@ -38,7 +38,7 @@
 }
 
 .location-title {
-    color: var(--color-bg-base);
+    color: #0A0A0B;
     font-size: 2.5rem;
     font-family: var(--font-heading);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -46,7 +46,7 @@
 }
 
 .location-card {
-    background-color: var(--color-bg-base);
+    background-color: var(--color-bg-surface);
     border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
@@ -54,7 +54,7 @@
     padding: var(--spacing-8);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     gap: var(--spacing-8);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--glass-border);
     position: relative;
     overflow: hidden;
 }
@@ -84,7 +84,7 @@
 }
 
 .location-icon {
-    color: var(--color-bg-base);
+    color: #F5F5F7;
     position: relative;
     z-index: 2;
 }
@@ -110,7 +110,7 @@
 
 .location-state {
     color: var(--color-accent);
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-weight: 700;
     font-size: 1.1rem;
     letter-spacing: 1px;
@@ -151,6 +151,12 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .icon-pulse {
+        animation: none;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .location-card {
         flex-direction: column;
@@ -161,5 +167,33 @@
 
     .location-title {
         font-size: 2rem;
+    }
+
+    .location-address {
+        font-size: 1.05rem;
+    }
+
+    .view-location-btn {
+        min-height: 44px;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .event-location-section {
+        padding: var(--spacing-10) var(--spacing-4);
+    }
+
+    .location-title {
+        font-size: 1.6rem;
+    }
+
+    .location-icon-wrapper {
+        width: 64px;
+        height: 64px;
+    }
+
+    .location-address {
+        font-size: 0.95rem;
     }
 }

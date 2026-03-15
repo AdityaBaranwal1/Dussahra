@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react';
 import { CheckmarkIcon, AlertIcon, PhoneIcon, PaymentIcon, ShieldCheckIcon } from '../components/icons/CulturalIcons';
+import { submitForm } from '../utils/formSubmit';
+import { EVENT_INFO } from '../data/event-info';
 import './BoothBooking.css';
 
 const PRICING_GENERAL = [
@@ -76,52 +78,28 @@ export const BoothBooking = () => {
         e.preventDefault();
         setStatus('submitting');
 
-        try {
-            const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL';
-
-            if (SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL') {
-                setTimeout(() => setStatus('success'), 1200);
-                return;
-            }
-
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ form_type: 'Booth Request', ...formData, calculatedTotal })
-            });
-
-            setStatus('success');
-        } catch (error) {
-            setStatus('error');
-        }
+        await submitForm(
+            { form_type: 'Booth Request', ...formData, calculatedTotal },
+            () => setStatus('success'),
+            () => setStatus('error')
+        );
     };
 
     const handleZelleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setZelleStatus('submitting');
 
-        try {
-            const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL';
-
-            if (SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL') {
-                setTimeout(() => setZelleStatus('success'), 1200);
-                return;
-            }
-
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                    form_type: 'Zelle Verification',
-                    businessName: formData.businessName,
-                    senderName: zelleData.senderName,
-                    confirmationCode: zelleData.confirmationCode,
-                    amount: calculatedTotal,
-                })
-            });
-
-            setZelleStatus('success');
-        } catch {
-            setZelleStatus('idle');
-        }
+        await submitForm(
+            {
+                form_type: 'Zelle Verification',
+                businessName: formData.businessName,
+                senderName: zelleData.senderName,
+                confirmationCode: zelleData.confirmationCode,
+                amount: calculatedTotal,
+            },
+            () => setZelleStatus('success'),
+            () => setZelleStatus('idle')
+        );
     };
 
     const resetAll = () => {
@@ -140,7 +118,7 @@ export const BoothBooking = () => {
             <div className="page-header temple-arch">
                 <div className="container">
                     <h1 className="page-title text-shimmer">Vendor Booth Booking</h1>
-                    <p className="page-subtitle">Reserve your space at the 28th Annual Dushahra Festival</p>
+                    <p className="page-subtitle">Reserve your space at the {EVENT_INFO.editionLabel.replace(' Edition', '')} Dushahra Festival</p>
                 </div>
             </div>
 
@@ -152,7 +130,7 @@ export const BoothBooking = () => {
                     </div>
                     <div className="pricing-cards reveal reveal-delay-200">
                         {PRICING_GENERAL.map(tier => (
-                            <div key={tier.id} className="pricing-card card card-shimmer mehndi-corner">
+                            <div key={tier.id} className="pricing-card glass-card card-shimmer mehndi-corner">
                                 <h3>{tier.type}</h3>
                                 <div className="price">{tier.price}</div>
                                 <div className="size">{tier.size}</div>
@@ -165,12 +143,12 @@ export const BoothBooking = () => {
                         ))}
                     </div>
 
-                    <div className="pricing-header reveal" style={{ marginTop: '4rem' }}>
+                    <div className="pricing-header reveal booth-food-header">
                         <h2><span className="text-gradient">Food Vendor Rates (Vegetarian Only)</span></h2>
                     </div>
                     <div className="pricing-cards reveal reveal-delay-200">
                         {PRICING_FOOD.map(tier => (
-                            <div key={tier.id} className="pricing-card card card-shimmer mehndi-corner">
+                            <div key={tier.id} className="pricing-card glass-card card-shimmer mehndi-corner">
                                 <h3>{tier.type}</h3>
                                 <div className="price">{tier.price}</div>
                                 <div className="size">{tier.size}</div>
@@ -196,46 +174,46 @@ export const BoothBooking = () => {
                     </div>
                 </div>
 
-                <div className="disclaimers-section card card-shimmer reveal" style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)' }}>Rules, Disclaimers & Cancellation Policy</h3>
+                <div className="disclaimers-section card card-shimmer reveal booth-disclaimers">
+                    <h3>Rules, Disclaimers & Cancellation Policy</h3>
 
-                    <div className="disclaimer-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+                    <div className="disclaimer-grid booth-disclaimer-grid">
                         <div className="disclaimer-block">
-                                <strong style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}><PhoneIcon size={18} /> Contact Persons</strong>
-                            <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                                Chanchal Gupta: 732-360-2059<br />
-                                Raj Mittal: 732-423-4619<br />
-                                Shalini Chhabra: 732-915-5634
+                                <strong className="booth-disclaimer-label"><PhoneIcon size={18} /> Contact Persons</strong>
+                            <p className="text-muted booth-disclaimer-text">
+                                {EVENT_INFO.contacts[0].name}: {EVENT_INFO.contacts[0].phone}<br />
+                                {EVENT_INFO.contacts[1].name}: {EVENT_INFO.contacts[1].phone}<br />
+                                {EVENT_INFO.contacts[5].name}: {EVENT_INFO.contacts[5].phone}
                             </p>
                         </div>
 
                         <div className="disclaimer-block">
-                                <strong style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}><CheckmarkIcon size={18} /> Booking Confirmation</strong>
-                            <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                                Booking will be confirmed after receiving payment. For quick confirmation Zelle: <br /><strong>dushahra.usa@gmail.com</strong>
+                                <strong className="booth-disclaimer-label"><CheckmarkIcon size={18} /> Booking Confirmation</strong>
+                            <p className="text-muted booth-disclaimer-text">
+                                Booking will be confirmed after receiving payment. For quick confirmation Zelle: <br /><strong>{EVENT_INFO.org.zelleEmail}</strong>
                             </p>
                         </div>
 
                         <div className="disclaimer-block">
-                                <strong style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}><ShieldCheckIcon size={18} /> Organization Setup</strong>
-                            <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-                                Indo-American Festivals, Inc.<br />
-                                40 La Valencia Road, Old Bridge, NJ 08857 USA<br />
-                                Phone: (732)-444-8381, (732)-360-2059<br />
-                                Fax: (732)-360-2545<br />
-                                Email: Contact@dushahra.com
+                                <strong className="booth-disclaimer-label"><ShieldCheckIcon size={18} /> Organization Setup</strong>
+                            <p className="text-muted booth-disclaimer-text">
+                                {EVENT_INFO.org.name}<br />
+                                {EVENT_INFO.org.address}<br />
+                                Phone: {EVENT_INFO.org.phone}, {EVENT_INFO.org.phoneAlt}<br />
+                                Fax: {EVENT_INFO.org.fax}<br />
+                                Email: {EVENT_INFO.org.email}
                             </p>
                         </div>
                     </div>
 
-                    <div className="cancellation-policy" style={{ marginTop: '1.5rem', padding: '1.5rem', backgroundColor: 'var(--color-success-bg)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-success-border)' }}>
-                        <strong style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', color: 'var(--color-accent)' }}><AlertIcon size={18} /> Cancellation Policy</strong>
-                        <p style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>All cancellations must be in writing.</p>
-                        <ul style={{ fontSize: '0.9rem', marginLeft: '1.5rem', color: 'var(--color-text-muted)' }}>
+                    <div className="cancellation-policy booth-cancellation">
+                        <strong className="booth-cancellation-title"><AlertIcon size={18} /> Cancellation Policy</strong>
+                        <p className="booth-cancellation-intro">All cancellations must be in writing.</p>
+                        <ul className="booth-cancellation-list">
                             <li>If canceled before July 31st, a full refund will be issued.</li>
-                            <li>From August 1 to September 10, 2026, a 50% refund will be issued based on the full published price of the booth. No refund will be issued thereafter.</li>
-                            <li>If the event is moved to the rain date (October 24th), no refunds will be given.</li>
-                            <li>No refunds will be issued after September 10, 2026, or due to rain, rain date changes, or any act of God.</li>
+                            <li>From August 1 to {EVENT_INFO.cancellationDeadline}, a 50% refund will be issued based on the full published price of the booth. No refund will be issued thereafter.</li>
+                            <li>If the event is moved to the rain date ({EVENT_INFO.rainDate}), no refunds will be given.</li>
+                            <li>No refunds will be issued after {EVENT_INFO.cancellationDeadline}, or due to rain, rain date changes, or any act of God.</li>
                         </ul>
                     </div>
                 </div>
@@ -247,54 +225,54 @@ export const BoothBooking = () => {
                     </div>
 
                     {status === 'success' || status === 'zelle-finalized' ? (
-                        <div className="form-success-message" style={{ padding: '2rem', textAlign: 'left', backgroundColor: 'var(--color-bg-base)', borderRadius: 'var(--radius-md)' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '1rem' }}><CheckmarkIcon size={48} /></div>
-                            <h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Application Successfully Received!</h3>
+                        <div className="form-success-message booth-success-message">
+                            <div className="booth-success-icon"><CheckmarkIcon size={48} /></div>
+                            <h3 className="booth-success-title">Application Successfully Received!</h3>
 
-                            <div className="zelle-instructions" style={{ backgroundColor: 'var(--color-bg-surface)', padding: '2rem', borderRadius: '12px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
-                                <h4 style={{ color: 'var(--color-secondary)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
+                            <div className="zelle-instructions booth-zelle-instructions">
+                                <h4 className="booth-zelle-header">
                                     <PaymentIcon size={24} /> Zelle Payment Instructions
                                 </h4>
-                                <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '1.05rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                                    <li><strong>Recipient Name:</strong> Indo-American Festivals, Inc.</li>
-                                    <li><strong>Zelle Email:</strong> dushahra.usa@gmail.com</li>
+                                <ul className="booth-zelle-list">
+                                    <li><strong>Recipient Name:</strong> {EVENT_INFO.org.name}</li>
+                                    <li><strong>Zelle Email:</strong> {EVENT_INFO.org.zelleEmail}</li>
                                     <li><strong>Amount Due:</strong> ${calculatedTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</li>
-                                    <li style={{ color: 'var(--color-accent)', padding: '0.75rem', backgroundColor: 'var(--color-success-bg)', borderRadius: '6px' }}>
+                                    <li className="booth-zelle-important">
                                         <strong><AlertIcon size={14} /> Important Memo:</strong> You MUST include your Business Name in the Zelle memo field so we can verify your booking.
                                     </li>
                                 </ul>
-                                <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                                <p className="booth-zelle-note">
                                     Note: Your booth is not reserved until the transfer is manually verified by our staff.
                                 </p>
                             </div>
 
                             {zelleStatus === 'success' ? (
-                                <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', backgroundColor: 'var(--color-success-bg)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-success-border)' }}>
-                                    <div style={{ marginBottom: '1rem' }}><CheckmarkIcon size={40} /></div>
-                                    <h3 style={{ marginBottom: '0.5rem' }}>Thank You!</h3>
-                                    <p style={{ color: 'var(--color-text-muted)' }}>Your booking and payment verification have been submitted. Our team will verify and confirm your booth reservation.</p>
-                                                    <button className="btn btn-secondary btn-ripple" style={{ marginTop: '1.5rem' }} onClick={resetAll}>Submit Another Application</button>
+                                <div className="booth-zelle-confirmed">
+                                    <div className="booth-zelle-confirmed-icon"><CheckmarkIcon size={40} /></div>
+                                    <h3>Thank You!</h3>
+                                    <p>Your booking and payment verification have been submitted. Our team will verify and confirm your booth reservation.</p>
+                                                    <button className="btn btn-secondary btn-ripple" onClick={resetAll}>Submit Another Application</button>
                                 </div>
                             ) : (
-                                <form onSubmit={handleZelleSubmit} style={{ marginTop: '2rem' }}>
-                                    <h4 style={{ marginBottom: '1rem', color: 'var(--color-primary)' }}>Payment Verification</h4>
+                                <form onSubmit={handleZelleSubmit} className="booth-zelle-form">
+                                    <h4>Payment Verification</h4>
 
                                     <div className="form-group">
-                                        <label className="form-label">Zelle Sender Name</label>
-                                        <input type="text" className="form-input" placeholder="Enter the name on your Zelle account" value={zelleData.senderName} onChange={e => setZelleData({ ...zelleData, senderName: e.target.value })} required disabled={zelleStatus === 'submitting'} />
+                                        <label className="form-label" htmlFor="booth-zelleSender">Zelle Sender Name</label>
+                                        <input id="booth-zelleSender" type="text" className="form-input" placeholder="Enter the name on your Zelle account" value={zelleData.senderName} onChange={e => setZelleData({ ...zelleData, senderName: e.target.value })} required disabled={zelleStatus === 'submitting'} />
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">Zelle Confirmation Screenshot</label>
-                                        <input type="file" className="form-input" accept="image/*" onChange={e => setZelleData({ ...zelleData, screenshot: e.target.files?.[0] || null })} disabled={zelleStatus === 'submitting'} />
+                                        <label className="form-label" htmlFor="booth-zelleScreenshot">Zelle Confirmation Screenshot</label>
+                                        <input id="booth-zelleScreenshot" type="file" className="form-input" accept="image/*" onChange={e => setZelleData({ ...zelleData, screenshot: e.target.files?.[0] || null })} disabled={zelleStatus === 'submitting'} />
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">Confirmation Code</label>
-                                        <input type="text" className="form-input" placeholder="Enter your Zelle confirmation/transaction code" value={zelleData.confirmationCode} onChange={e => setZelleData({ ...zelleData, confirmationCode: e.target.value })} required disabled={zelleStatus === 'submitting'} />
+                                        <label className="form-label" htmlFor="booth-zelleCode">Confirmation Code</label>
+                                        <input id="booth-zelleCode" type="text" className="form-input" placeholder="Enter your Zelle confirmation/transaction code" value={zelleData.confirmationCode} onChange={e => setZelleData({ ...zelleData, confirmationCode: e.target.value })} required disabled={zelleStatus === 'submitting'} />
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary btn-ripple submit-btn" style={{ opacity: zelleStatus === 'submitting' ? 0.7 : 1 }} disabled={zelleStatus === 'submitting'}>
+                                    <button type="submit" className={`btn btn-primary btn-ripple submit-btn${zelleStatus === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={zelleStatus === 'submitting'}>
                                         {zelleStatus === 'submitting' ? 'Submitting...' : 'Finalize Booking'}
                                     </button>
                                 </form>
@@ -303,8 +281,8 @@ export const BoothBooking = () => {
                     ) : (
                         <form className="booking-form" onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <label className="form-label">Select Booth</label>
-                                <select name="boothType" value={formData.boothType} onChange={handleChange} className="form-input" required disabled={status === 'submitting'}>
+                                <label className="form-label" htmlFor="booth-boothType">Select Booth</label>
+                                <select id="booth-boothType" name="boothType" value={formData.boothType} onChange={handleChange} className="form-input" required disabled={status === 'submitting'}>
                                     <option value="">Select a booth type...</option>
                                     {PRICING_GENERAL.map(t => <option key={t.id} value={`${t.type} - ${t.size}`}>{t.type} - {t.size} ({t.price})</option>)}
                                     <option disabled>--- Food Vendors ---</option>
@@ -314,119 +292,119 @@ export const BoothBooking = () => {
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label className="form-label">Additional Chair</label>
-                                    <input type="number" name="additionalChair" value={formData.additionalChair} onChange={handleChange} className="form-input" min="0" disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-additionalChair">Additional Chair</label>
+                                    <input id="booth-additionalChair" type="number" name="additionalChair" value={formData.additionalChair} onChange={handleChange} className="form-input" min="0" disabled={status === 'submitting'} />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Additional Table</label>
-                                    <input type="number" name="additionalTable" value={formData.additionalTable} onChange={handleChange} className="form-input" min="0" disabled={status === 'submitting'} />
-                                </div>
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label">Name</label>
-                                    <input type="text" name="contactPerson" value={formData.contactPerson} onChange={handleChange} className="form-input" placeholder="First and Last Name" required disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">Title</label>
-                                    <input type="text" name="title" value={formData.title} onChange={handleChange} className="form-input" placeholder="e.g. Mr., Mrs., Manager" disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-additionalTable">Additional Table</label>
+                                    <input id="booth-additionalTable" type="number" name="additionalTable" value={formData.additionalTable} onChange={handleChange} className="form-input" min="0" disabled={status === 'submitting'} />
                                 </div>
                             </div>
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label className="form-label">Tel No</label>
-                                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" placeholder="(555) 123-4567" required disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-contactPerson">Name</label>
+                                    <input id="booth-contactPerson" type="text" name="contactPerson" value={formData.contactPerson} onChange={handleChange} className="form-input" placeholder="First and Last Name" required disabled={status === 'submitting'} />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Business / Organization Name</label>
-                                    <input type="text" name="businessName" value={formData.businessName} onChange={handleChange} className="form-input" placeholder="e.g. Acme Craft Goods" required disabled={status === 'submitting'} />
-                                </div>
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label">Postal Address</label>
-                                    <input type="text" name="postalAddress" value={formData.postalAddress} onChange={handleChange} className="form-input" placeholder="Street address" disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label">City</label>
-                                    <input type="text" name="city" value={formData.city} onChange={handleChange} className="form-input" placeholder="City" disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-title">Title</label>
+                                    <input id="booth-title" type="text" name="title" value={formData.title} onChange={handleChange} className="form-input" placeholder="e.g. Mr., Mrs., Manager" disabled={status === 'submitting'} />
                                 </div>
                             </div>
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label className="form-label">Email Address</label>
-                                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" placeholder="you@example.com" required disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-phone">Tel No</label>
+                                    <input id="booth-phone" type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" placeholder="(555) 123-4567" required disabled={status === 'submitting'} />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Tax ID</label>
-                                    <input type="text" name="taxId" value={formData.taxId} onChange={handleChange} className="form-input" placeholder="Tax ID number" disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-businessName">Business / Organization Name</label>
+                                    <input id="booth-businessName" type="text" name="businessName" value={formData.businessName} onChange={handleChange} className="form-input" placeholder="e.g. Acme Craft Goods" required disabled={status === 'submitting'} />
                                 </div>
                             </div>
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label className="form-label">Vendor/Food Permit</label>
-                                    <input type="text" name="vendorPermit" value={formData.vendorPermit} onChange={handleChange} className="form-input" placeholder="Permit number or status" disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-postalAddress">Postal Address</label>
+                                    <input id="booth-postalAddress" type="text" name="postalAddress" value={formData.postalAddress} onChange={handleChange} className="form-input" placeholder="Street address" disabled={status === 'submitting'} />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Date</label>
-                                    <input type="date" name="date" value={formData.date} onChange={handleChange} className="form-input" disabled={status === 'submitting'} />
+                                    <label className="form-label" htmlFor="booth-city">City</label>
+                                    <input id="booth-city" type="text" name="city" value={formData.city} onChange={handleChange} className="form-input" placeholder="City" disabled={status === 'submitting'} />
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="booth-email">Email Address</label>
+                                    <input id="booth-email" type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" placeholder="you@example.com" required disabled={status === 'submitting'} />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="booth-taxId">Tax ID</label>
+                                    <input id="booth-taxId" type="text" name="taxId" value={formData.taxId} onChange={handleChange} className="form-input" placeholder="Tax ID number" disabled={status === 'submitting'} />
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="booth-vendorPermit">Vendor/Food Permit</label>
+                                    <input id="booth-vendorPermit" type="text" name="vendorPermit" value={formData.vendorPermit} onChange={handleChange} className="form-input" placeholder="Permit number or status" disabled={status === 'submitting'} />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label" htmlFor="booth-date">Date</label>
+                                    <input id="booth-date" type="date" name="date" value={formData.date} onChange={handleChange} className="form-input" disabled={status === 'submitting'} />
                                 </div>
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Description of items to be sold</label>
-                                <textarea name="description" value={formData.description} onChange={handleChange} className="form-input" rows={4} placeholder="Please detail the items you plan to sell or display..." required disabled={status === 'submitting'}></textarea>
+                                <label className="form-label" htmlFor="booth-description">Description of items to be sold</label>
+                                <textarea id="booth-description" name="description" value={formData.description} onChange={handleChange} className="form-input" rows={4} placeholder="Please detail the items you plan to sell or display..." required disabled={status === 'submitting'}></textarea>
                             </div>
 
-                            <div className="calculations-section" style={{ padding: '1.5rem', backgroundColor: 'var(--color-bg-base)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)', marginBottom: 'var(--spacing-4)' }}>
-                                <h4 style={{ color: 'var(--color-primary)', marginBottom: '0.75rem' }}>Calculations</h4>
+                            <div className="calculations-section booth-calculations">
+                                <h4>Calculations</h4>
                                 {selectedBooth ? (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.95rem' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <div className="booth-calc-rows">
+                                        <div className="booth-calc-row">
                                             <span>Booth ({formData.boothType})</span>
                                             <span>${selectedBooth.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                                         </div>
                                         {formData.additionalChair > 0 && (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <div className="booth-calc-row">
                                                 <span>Additional Chair x{formData.additionalChair}</span>
                                                 <span>${(formData.additionalChair * 10).toFixed(2)}</span>
                                             </div>
                                         )}
                                         {formData.additionalTable > 0 && (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <div className="booth-calc-row">
                                                 <span>Additional Table x{formData.additionalTable}</span>
                                                 <span>${(formData.additionalTable * 25).toFixed(2)}</span>
                                             </div>
                                         )}
                                         {selectedBooth.isSelfBooth && (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                            <div className="booth-calc-row">
                                                 <span>Permit Fee (Self Booth)</span>
                                                 <span>$25.00</span>
                                             </div>
                                         )}
-                                        <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', margin: '0.5rem 0' }} />
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: '1.15rem', color: 'var(--color-primary)' }}>
+                                        <hr className="booth-calc-divider" />
+                                        <div className="booth-calc-total">
                                             <span>Total</span>
                                             <span>${calculatedTotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Select a booth to see pricing breakdown.</p>
+                                    <p className="booth-calc-empty">Select a booth to see pricing breakdown.</p>
                                 )}
                             </div>
 
                             {status === 'error' && (
-                                <div style={{ color: 'var(--color-accent)', marginBottom: '1rem', fontWeight: 600 }}>
+                                <div className="booth-error" role="alert">
                                     An error occurred sending your application. Please try again or contact us directly.
                                 </div>
                             )}
 
-                            <button type="submit" className="btn btn-primary btn-ripple submit-btn" style={{ opacity: status === 'submitting' ? 0.7 : 1 }} disabled={status === 'submitting'}>
+                            <button type="submit" className={`btn btn-primary btn-ripple submit-btn${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting'}>
                                 {status === 'submitting' ? 'Submitting...' : 'Submit Application'}
                             </button>
                             <p className="form-disclaimer">By signing this document, I confirm that I have read and agree to the attached rules, terms and conditions and understand that Indo American Festivals, Inc. is not responsible for loss, theft or damage of my property. I will abide by the terms and conditions of Indo American Festivals, Inc. and the rules and regulations of Edison Township New Jersey.</p>

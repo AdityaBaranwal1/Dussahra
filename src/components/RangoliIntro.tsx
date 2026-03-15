@@ -115,7 +115,7 @@ export const RangoliIntro = () => {
 
     return (
         <div className="rangoli-container">
-            <svg ref={svgRef} viewBox="0 0 400 400" className="rangoli-svg">
+            <svg ref={svgRef} viewBox="0 0 400 400" className="rangoli-svg" aria-hidden="true">
                 {/* Concentric circles */}
                 {circles.map((r, i) => (
                     <circle

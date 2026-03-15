@@ -9,24 +9,24 @@ const DOCS_DATA = [
 
 export const Press = () => {
     return (
-        <div className="media-page" style={{ backgroundColor: 'var(--color-bg-base)' }}>
-            <div className="page-header" style={{ backgroundColor: 'var(--color-bg-dark)' }}>
+        <div className="media-page media-page-light">
+            <div className="page-header page-header-dark">
                 <div className="container">
                     <h1 className="page-title text-shimmer">Press & Media Coverage</h1>
                     <p className="page-subtitle">Official press releases and media resources</p>
                 </div>
             </div>
 
-            <div className="container" style={{ marginTop: 'var(--spacing-8)', maxWidth: '900px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-4)' }}>
+            <div className="reading-container mt-spacing-8">
+                <div className="flex-col-gap-4">
                     {DOCS_DATA.map((doc, i) => (
                         <div key={doc.id} className={`document-card card-shimmer mehndi-corner reveal reveal-delay-${(i + 1) * 100}`}>
                             <div className="doc-icon"><ConchIcon size={40} /></div>
-                            <div style={{ flexGrow: 1 }}>
+                            <div className="doc-content">
                                 <div className="doc-title">{doc.title}</div>
                                 <div className="doc-meta">Published: {doc.date} &bull; PDF {doc.size}</div>
                             </div>
-                            <a href="#" className="btn btn-secondary btn-ripple" style={{ padding: '0.5rem 1rem' }}>Download</a>
+                            <a href="#" className="btn btn-secondary btn-ripple btn-sm" aria-label={`Download ${doc.title}`}>Download</a>
                         </div>
                     ))}
                 </div>

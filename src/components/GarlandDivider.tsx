@@ -58,6 +58,9 @@ export const GarlandDivider = ({ width = 800, sag = 50, flowers = 7 }: GarlandDi
             ease: 'elastic.out(1, 0.3)',
             stagger: 0.12,
             duration: 1.5,
+            onComplete: () => {
+                svgRef.current?.classList.add('garland-sway-active');
+            },
         }, '-=0.6');
 
         return () => { tl.kill(); };

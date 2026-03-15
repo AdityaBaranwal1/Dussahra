@@ -1,0 +1,50 @@
+.ramas-arrow-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: #0d1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ramas-arrow-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.ramas-arrow-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #c9d1d9;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.ramas-arrow-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ramas-arrow-hint {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 9999;
+  color: #484f58;
+  font-size: 12px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+}

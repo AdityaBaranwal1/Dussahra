@@ -19,7 +19,7 @@
 
 .info-icon {
     font-size: 1.5rem;
-    background-color: rgba(232, 93, 4, 0.1);
+    background-color: rgba(var(--color-primary-rgb, 232, 93, 4), 0.1);
     width: 50px;
     height: 50px;
     display: flex;

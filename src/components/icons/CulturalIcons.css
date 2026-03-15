@@ -66,21 +66,6 @@
 }
 
 /* =============================================
-   Diya — Flame flicker (always on, subtle)
-   ============================================= */
-.diya-flame {
-    animation: flicker 1.5s ease-in-out infinite;
-    transform-origin: bottom center;
-}
-
-@keyframes flicker {
-    0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.8; }
-    25% { transform: scaleY(1.1) scaleX(0.9); opacity: 0.9; }
-    50% { transform: scaleY(0.9) scaleX(1.05); opacity: 0.7; }
-    75% { transform: scaleY(1.05) scaleX(0.95); opacity: 0.85; }
-}
-
-/* =============================================
    Lotus — Petals bloom outward on hover
    ============================================= */
 .lotus-petal {
@@ -92,49 +77,6 @@
 .lotus-icon:hover .petal-left-2 { transform: rotate(-10deg); }
 .lotus-icon:hover .petal-right-1 { transform: rotate(5deg); }
 .lotus-icon:hover .petal-right-2 { transform: rotate(10deg); }
-
-/* =============================================
-   Tabla — Drumhead depresses on hover
-   ============================================= */
-.tabla-head {
-    transition: transform 0.15s ease;
-    transform-origin: center center;
-}
-
-.tabla-icon:hover .tabla-head { transform: scaleY(0.8); }
-.tabla-icon:hover { transform: scale(1.02); }
-
-/* =============================================
-   Trishul — Prongs glow on hover
-   ============================================= */
-.trishul-prong {
-    transition: filter 0.3s ease, opacity 0.3s ease;
-}
-
-.trishul-icon:hover .trishul-prong {
-    filter: drop-shadow(0 0 4px currentColor);
-}
-
-.trishul-icon:hover {
-    transform: scale(1.05);
-}
-
-/* =============================================
-   Ravana — Heads pulse subtly on hover
-   ============================================= */
-.ravana-head {
-    transition: transform 0.4s ease, opacity 0.3s ease;
-    transform-origin: center center;
-}
-
-.ravana-icon:hover .ravana-head {
-    animation: ravanaGlow 1.2s ease-in-out infinite alternate;
-}
-
-@keyframes ravanaGlow {
-    0% { opacity: 0.7; }
-    100% { opacity: 1; filter: drop-shadow(0 0 3px currentColor); }
-}
 
 /* =============================================
    Flame — Continuous flicker animation
@@ -174,49 +116,6 @@
 }
 
 /* =============================================
-   Mandala — Slow rotation on hover
-   ============================================= */
-.mandala-icon:hover svg {
-    animation: mandalaSpin 8s linear infinite;
-}
-
-@keyframes mandalaSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* =============================================
-   Peacock Feather — Gentle sway on hover
-   ============================================= */
-.peacock-feather-icon:hover {
-    animation: featherSway 2s ease-in-out infinite;
-    transform-origin: bottom center;
-}
-
-@keyframes featherSway {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(3deg); }
-    75% { transform: rotate(-3deg); }
-}
-
-/* =============================================
-   Marigold — Petals pulse on hover
-   ============================================= */
-.marigold-petal {
-    transition: transform 0.4s ease;
-    transform-origin: 32px 32px;
-}
-
-.marigold-icon:hover .marigold-petal {
-    animation: petalPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes petalPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-}
-
-/* =============================================
    Om — Gentle glow on hover
    ============================================= */
 .om-icon:hover svg {
@@ -238,18 +137,6 @@
     0%, 100% { transform: rotate(0deg); }
     25% { transform: rotate(-2deg); }
     75% { transform: rotate(2deg); }
-}
-
-/* =============================================
-   Rangoli — Continuous slow rotation
-   ============================================= */
-.rangoli-icon svg {
-    animation: rangoliSpin 30s linear infinite;
-}
-
-@keyframes rangoliSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
 }
 
 /* =============================================
@@ -303,13 +190,6 @@
 @keyframes alertPulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
-}
-
-/* =============================================
-   Temple — Subtle lift on hover
-   ============================================= */
-.temple-icon:hover {
-    transform: translateY(-3px);
 }
 
 /* =============================================

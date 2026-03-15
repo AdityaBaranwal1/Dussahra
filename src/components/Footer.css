@@ -1,9 +1,10 @@
 .footer-container {
-    background-color: var(--color-bg-dark);
-    color: var(--color-text-inverse);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-main);
     padding: var(--spacing-16) 0 var(--spacing-6) 0;
     margin-top: auto;
     position: relative;
+    z-index: 2;
 }
 
 .footer-container.garland-border-top::before {
@@ -60,11 +61,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(245, 245, 247, 0.08);
+    color: var(--color-text-main);
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
@@ -78,19 +79,8 @@
     height: 18px;
 }
 
-.footer-brand {
-    font-family: var(--font-heading);
-    color: var(--color-primary);
-    margin-bottom: var(--spacing-4);
-    font-size: 1.5rem;
-}
-
-.footer-desc {
-    color: var(--color-text-muted);
-}
-
 .footer-heading {
-    color: var(--color-gold, #D4A843);
+    color: var(--color-gold);
     margin-bottom: var(--spacing-4);
     font-size: 1.1rem;
 }
@@ -102,12 +92,12 @@
 
 .footer-links li {
     margin-bottom: var(--spacing-2);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-muted);
     font-size: 0.95rem;
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-muted);
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -118,9 +108,9 @@
 
 .footer-bottom {
     text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
     padding-top: var(--spacing-6);
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-muted);
     font-size: 0.9rem;
 }
 
@@ -137,9 +127,26 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .footer-container.garland-border-top::before {
+        animation: none;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .footer-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-6);
+    }
+
+    .footer-links a {
+        display: inline-block;
+        padding: var(--spacing-1) 0;
+        min-height: 44px;
+        line-height: 2.4;
+    }
+
+    .footer-links li {
+        margin-bottom: 0;
     }
 }

@@ -20,15 +20,6 @@
     font-size: 2.2rem;
 }
 
-.pricing-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.pricing-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(var(--color-primary-rgb, 232, 93, 4), 0.15);
-}
-
 .pricing-cards {
     display: flex;
     flex-wrap: wrap;
@@ -45,25 +36,15 @@
     flex-direction: column;
 }
 
-.highlight-card {
-    border: 2px solid var(--color-primary);
-    transform: scale(1.02);
-    z-index: 10;
-}
-
-.highlight-card:hover {
-    transform: scale(1.02) translateY(-4px);
-}
-
 .card-badge {
     position: absolute;
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--color-primary);
-    color: var(--color-text-inverse);
-    padding: 4px 12px;
-    border-radius: 20px;
+    color: var(--color-bg-base);
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-xl);
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -192,17 +173,267 @@
     margin-left: var(--spacing-4);
 }
 
+/* Disclaimers Section */
+.booth-disclaimers {
+    margin-bottom: var(--spacing-8);
+}
+
+.booth-disclaimers h3 {
+    margin-bottom: var(--spacing-6);
+    color: var(--color-primary);
+}
+
+.booth-disclaimer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-6);
+}
+
+.booth-disclaimer-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-2);
+}
+
+.booth-disclaimer-text {
+    font-size: 0.9rem;
+}
+
+/* Cancellation Policy */
+.booth-cancellation {
+    margin-top: var(--spacing-6);
+    padding: var(--spacing-6);
+    background-color: var(--color-success-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-success-border);
+}
+
+.booth-cancellation-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-2);
+    color: var(--color-accent);
+}
+
+.booth-cancellation-intro {
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-2);
+}
+
+.booth-cancellation-list {
+    font-size: 0.9rem;
+    margin-left: var(--spacing-6);
+    color: var(--color-text-muted);
+}
+
+/* Food Vendor Header */
+.booth-food-header {
+    margin-top: var(--spacing-16);
+}
+
+/* Calculations Section */
+.booth-calculations {
+    padding: var(--spacing-6);
+    background-color: var(--color-bg-base);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    margin-bottom: var(--spacing-4);
+}
+
+.booth-calculations h4 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-3);
+}
+
+.booth-calc-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    font-size: 0.95rem;
+}
+
+.booth-calc-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.booth-calc-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--spacing-2) 0;
+}
+
+.booth-calc-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--color-primary);
+}
+
+.booth-calc-empty {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+/* Error Message */
+.booth-error {
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-4);
+    font-weight: 600;
+}
+
+/* Submit Button Disabled State */
+.booth-submit-opacity {
+    opacity: 0.7;
+}
+
+/* Success Message */
+.booth-success-message {
+    padding: var(--spacing-8);
+    text-align: left;
+    background-color: var(--color-bg-base);
+    border-radius: var(--radius-md);
+}
+
+.booth-success-icon {
+    text-align: center;
+    margin-bottom: var(--spacing-4);
+}
+
+.booth-success-title {
+    text-align: center;
+    margin-bottom: var(--spacing-4);
+}
+
+/* Zelle Instructions */
+.booth-zelle-instructions {
+    background-color: var(--color-bg-surface);
+    padding: var(--spacing-8);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.booth-zelle-header {
+    color: var(--color-secondary);
+    margin-bottom: var(--spacing-6);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-3);
+}
+
+.booth-zelle-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.05rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.booth-zelle-important {
+    color: var(--color-accent);
+    padding: var(--spacing-3);
+    background-color: var(--color-success-bg);
+    border-radius: var(--radius-sm);
+}
+
+.booth-zelle-note {
+    margin-top: var(--spacing-6);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* Zelle Verification Success */
+.booth-zelle-confirmed {
+    text-align: center;
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-8);
+    background-color: var(--color-success-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-success-border);
+}
+
+.booth-zelle-confirmed-icon {
+    margin-bottom: var(--spacing-4);
+}
+
+.booth-zelle-confirmed h3 {
+    margin-bottom: var(--spacing-2);
+}
+
+.booth-zelle-confirmed p {
+    color: var(--color-text-muted);
+}
+
+.booth-zelle-confirmed .btn {
+    margin-top: var(--spacing-6);
+}
+
+/* Zelle Verification Form */
+.booth-zelle-form {
+    margin-top: var(--spacing-8);
+}
+
+.booth-zelle-form h4 {
+    margin-bottom: var(--spacing-4);
+    color: var(--color-primary);
+}
+
 @media screen and (max-width: 768px) {
-    .highlight-card {
-        transform: none;
-    }
-
-    .highlight-card:hover {
-        transform: translateY(-4px);
-    }
-
     .form-row {
         flex-direction: column;
         gap: 0;
+    }
+
+    .pricing-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .pricing-card .price {
+        font-size: 2rem;
+    }
+
+    .download-cta .btn {
+        margin-left: 0;
+        margin-top: var(--spacing-3);
+    }
+
+    .booth-zelle-instructions {
+        padding: var(--spacing-4);
+    }
+
+    .booth-zelle-list {
+        font-size: 0.95rem;
+    }
+
+    .booth-disclaimer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .pricing-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .booth-success-message {
+        padding: var(--spacing-4);
+    }
+
+    .booth-cancellation {
+        padding: var(--spacing-4);
+    }
+
+    .booth-calculations {
+        padding: var(--spacing-4);
     }
 }

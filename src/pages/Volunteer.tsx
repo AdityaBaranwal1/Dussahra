@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CheckmarkIcon, LotusIcon } from '../components/icons/CulturalIcons';
+import { submitForm } from '../utils/formSubmit';
 import './Volunteer.css';
 
 export const Volunteer = () => {
@@ -10,7 +11,7 @@ export const Volunteer = () => {
         address: '',
         agreeToTerms: false,
     });
-    const [_file, setFile] = useState<File | null>(null);
+    const [, setFile] = useState<File | null>(null);
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -27,23 +28,11 @@ export const Volunteer = () => {
         if (!formData.agreeToTerms) return;
         setStatus('submitting');
 
-        try {
-            const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL';
-
-            if (SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL') {
-                setTimeout(() => setStatus('success'), 1200);
-                return;
-            }
-
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ form_type: 'Volunteer Sign-Up', ...formData })
-            });
-
-            setStatus('success');
-        } catch (error) {
-            setStatus('error');
-        }
+        await submitForm(
+            { form_type: 'Volunteer Sign-Up', ...formData },
+            () => setStatus('success'),
+            () => setStatus('error')
+        );
     };
 
     return (
@@ -55,7 +44,7 @@ export const Volunteer = () => {
                 </div>
             </div>
 
-            <div className="container" style={{ marginTop: 'var(--spacing-12)' }}>
+            <div className="container mt-spacing-12">
                 <div className="volunteer-intro lotus-watermark reveal">
                     <p>
                         Indo-American Festivals, Inc. (IAF) welcomes volunteers who want to contribute to our community events.
@@ -76,12 +65,12 @@ export const Volunteer = () => {
                             rel="noopener noreferrer"
                             className="btn btn-primary btn-ripple"
                         >
-                            Download Here
+                            Download Volunteer Agreement (PDF)
                         </a>
                     </div>
                 </div>
 
-                <div className="divider-mandala-spin reveal" style={{ margin: 'var(--spacing-8) auto' }}>
+                <div className="divider-mandala-spin reveal divider-margin-auto">
                     <LotusIcon size={32} />
                 </div>
 
@@ -92,11 +81,11 @@ export const Volunteer = () => {
                     </div>
 
                     {status === 'success' ? (
-                        <div className="form-success-message" style={{ padding: '2rem', textAlign: 'center', backgroundColor: 'var(--color-bg-base)', borderRadius: 'var(--radius-md)', marginTop: '2rem' }}>
-                            <div style={{ marginBottom: '1rem' }}><CheckmarkIcon size={48} /></div>
+                        <div className="form-success-message form-success-card">
+                            <div className="form-success-icon"><CheckmarkIcon size={48} /></div>
                             <h3>Thank You for Signing Up!</h3>
                             <p>We have received your volunteer application. Our team will reach out to you soon.</p>
-                            <button className="btn btn-secondary btn-ripple" style={{ marginTop: '1rem' }} onClick={() => {
+                            <button className="btn btn-secondary btn-ripple form-success-btn" onClick={() => {
                                 setStatus('idle');
                                 setFormData({ name: '', email: '', contactNumber: '', address: '', agreeToTerms: false });
                                 setFile(null);
@@ -105,47 +94,47 @@ export const Volunteer = () => {
                     ) : (
                         <form className="volunteer-form" onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <label className="form-label">Your Name *</label>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-input" placeholder="Full name" required disabled={status === 'submitting'} />
+                                <label className="form-label" htmlFor="vol-name">Your Name *</label>
+                                <input id="vol-name" type="text" name="name" value={formData.name} onChange={handleChange} className="form-input" placeholder="Full name" required disabled={status === 'submitting'} />
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Email *</label>
-                                <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" placeholder="you@example.com" required disabled={status === 'submitting'} />
+                                <label className="form-label" htmlFor="vol-email">Email *</label>
+                                <input id="vol-email" type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" placeholder="you@example.com" required disabled={status === 'submitting'} />
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Contact Number *</label>
-                                <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} className="form-input" placeholder="(555) 123-4567" required disabled={status === 'submitting'} />
+                                <label className="form-label" htmlFor="vol-contact">Contact Number *</label>
+                                <input id="vol-contact" type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} className="form-input" placeholder="(555) 123-4567" required disabled={status === 'submitting'} />
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Address *</label>
-                                <textarea name="address" value={formData.address} onChange={handleChange} className="form-input" rows={3} placeholder="Your full address" required disabled={status === 'submitting'}></textarea>
+                                <label className="form-label" htmlFor="vol-address">Address *</label>
+                                <textarea id="vol-address" name="address" value={formData.address} onChange={handleChange} className="form-input" rows={3} placeholder="Your full address" required disabled={status === 'submitting'}></textarea>
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">File Upload</label>
-                                <input type="file" className="form-input" onChange={e => setFile(e.target.files?.[0] || null)} disabled={status === 'submitting'} />
+                                <label className="form-label" htmlFor="vol-file">File Upload</label>
+                                <input id="vol-file" type="file" className="form-input" onChange={e => setFile(e.target.files?.[0] || null)} disabled={status === 'submitting'} />
                             </div>
 
-                            <div className="form-group" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--spacing-2)' }}>
-                                <input type="checkbox" name="agreeToTerms" checked={formData.agreeToTerms} onChange={handleChange} required disabled={status === 'submitting'} style={{ marginTop: '4px' }} />
-                                <label style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>
+                            <div className="form-group flex-start-gap">
+                                <input id="vol-agree" type="checkbox" name="agreeToTerms" checked={formData.agreeToTerms} onChange={handleChange} required disabled={status === 'submitting'} className="checkbox-input" />
+                                <label htmlFor="vol-agree" className="checkbox-label">
                                     I agree to the Volunteer Agreement.{' '}
-                                    <a href="/IAF-Volunteer_Agreement_and_Policy-2023.pdf" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
-                                        Please read here
+                                    <a href="/IAF-Volunteer_Agreement_and_Policy-2023.pdf" target="_blank" rel="noopener noreferrer">
+                                        <strong>Read the Volunteer Agreement</strong>
                                     </a>
                                 </label>
                             </div>
 
                             {status === 'error' && (
-                                <div style={{ color: 'var(--color-accent)', marginBottom: '1rem', fontWeight: 600 }}>
+                                <div className="form-error-message" role="alert">
                                     An error occurred. Please try again.
                                 </div>
                             )}
 
-                            <button type="submit" className="btn btn-primary btn-ripple" style={{ width: '100%', opacity: status === 'submitting' ? 0.7 : 1 }} disabled={status === 'submitting'}>
+                            <button type="submit" className={`btn btn-primary btn-ripple btn-full-width${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting'}>
                                 {status === 'submitting' ? 'Submitting...' : 'Submit'}
                             </button>
                         </form>

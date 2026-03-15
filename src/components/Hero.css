@@ -1,14 +1,14 @@
 .hero-container {
     position: relative;
-    height: 90vh;
-    min-height: 600px;
+    height: 100vh;
+    min-height: 700px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     /* Darken placeholder background */
     background: var(--gradient-hero, linear-gradient(to bottom, var(--color-bg-dark) 0%, var(--color-bg-surface) 100%));
-    color: var(--color-text-inverse);
+    color: var(--color-text-main);
     overflow: hidden;
 }
 
@@ -19,10 +19,27 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-385-scaled.jpg') center/cover no-repeat;
-    opacity: 0.55;
+    background: url('/images/hero-bg.jpg') center/cover no-repeat;
+    opacity: 0.85;
     animation: cinematicZoom 30s infinite alternate linear;
     z-index: 1;
+}
+
+.hero-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 10, 11, 0.3) 0%,
+        rgba(10, 10, 11, 0.6) 60%,
+        rgba(10, 10, 11, 1) 100%
+    );
+    z-index: 2;
+}
+
+.hero-overlay-paused {
+    animation-play-state: paused;
 }
 
 @keyframes cinematicZoom {
@@ -37,7 +54,7 @@
 
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,13 +67,18 @@
     font-weight: 600;
     margin-bottom: var(--spacing-4);
     font-size: 1rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.3);
 }
 
 .hero-title {
-    color: var(--color-text-inverse);
-    font-size: 5rem;
+    color: var(--color-gold);
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-style: italic;
     margin-bottom: var(--spacing-2);
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    text-shadow:
+        0 2px 20px rgba(212, 175, 55, 0.4),
+        0 4px 40px rgba(0, 0, 0, 0.8),
+        0 0 80px rgba(255, 122, 0, 0.2);
 }
 
 /* SplitText character wrapper */
@@ -75,32 +97,40 @@
 .hero-rain-date {
     font-size: 0.9rem;
     font-weight: 400;
-    opacity: 0.7;
+    opacity: 0.85;
     margin-bottom: var(--spacing-10);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
 .countdown-container {
     display: flex;
     gap: var(--spacing-4);
-    margin-bottom: var(--spacing-12);
 }
 
 .countdown-box {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 183, 3, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     padding: var(--spacing-4);
     border-radius: var(--radius-md);
     min-width: 90px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.countdown-box:hover {
+    border-color: rgba(255, 183, 3, 0.45);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 183, 3, 0.15);
 }
 
 .countdown-num {
     font-size: 2.5rem;
-    font-weight: 700;
-    font-family: var(--font-heading);
+    font-weight: 600;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
     color: var(--color-primary);
     line-height: 1;
     margin-bottom: var(--spacing-1);
@@ -116,6 +146,7 @@
 .hero-ctas {
     display: flex;
     gap: var(--spacing-4);
+    margin-bottom: var(--spacing-12);
 }
 
 .hero-btn {
@@ -124,19 +155,38 @@
 }
 
 .hero-btn-outline {
-    color: var(--color-text-inverse);
-    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--color-gold);
+    border-color: var(--glass-border);
+    background: transparent;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .hero-btn-outline:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: var(--color-text-inverse);
-    color: var(--color-text-inverse);
+    background-color: rgba(212, 175, 55, 0.08);
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-overlay {
+        animation: none;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    .hero-container {
+        min-height: 500px;
+    }
+
     .hero-title {
-        font-size: 3rem;
+        font-size: clamp(2.4rem, 7vw, 3rem);
+    }
+
+    .countdown-container {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .countdown-box {
@@ -157,5 +207,43 @@
 
     .hero-btn {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-container {
+        min-height: 450px;
+        padding: var(--spacing-4);
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 7vw, 2.2rem);
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-edition {
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+    }
+
+    .countdown-box {
+        min-width: 60px;
+        padding: var(--spacing-2);
+    }
+
+    .countdown-num {
+        font-size: 1.5rem;
+    }
+
+    .countdown-label {
+        font-size: 0.7rem;
+    }
+
+    .countdown-container {
+        gap: var(--spacing-2);
+        margin-bottom: var(--spacing-8);
     }
 }

@@ -1,4 +1,3 @@
-import { EmberParticles } from '../components/EmberParticles';
 import './MediaGrid.css';
 
 const PHOTO_DATA = [
@@ -15,16 +14,15 @@ const PHOTO_DATA = [
 
 export const Photos = () => {
     return (
-        <div className="media-page" style={{ position: 'relative' }}>
-            <EmberParticles density="low" intensity={0.4} style={{ zIndex: 1 }} />
-            <div className="page-header" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="media-page pos-relative">
+            <div className="page-header z-2">
                 <div className="container">
                     <h1 className="page-title text-shimmer">Photo Gallery</h1>
                     <p className="page-subtitle">A look back at our magnificent celebrations</p>
                 </div>
             </div>
 
-            <div className="container" style={{ marginTop: 'var(--spacing-8)', position: 'relative', zIndex: 2 }}>
+            <div className="container mt-spacing-8 z-2">
                 <div className="media-grid">
                     {PHOTO_DATA.map((photo, i) => (
                         <div key={photo.id} className={`media-card img-parallax-hover reveal reveal-delay-${(i % 4 + 1) * 100}`}>
