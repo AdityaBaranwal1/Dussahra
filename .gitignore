@@ -2,7 +2,7 @@
 node_modules/
 
 # Build output
-dist/
+# dist/ — committed for GoDaddy shared hosting (no Node on server)
 
 # Environment variables
 .env
