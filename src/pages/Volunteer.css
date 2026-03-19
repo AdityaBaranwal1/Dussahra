@@ -1,6 +1,13 @@
 .volunteer-page {
     padding-bottom: var(--spacing-16);
     background-color: var(--color-bg-base);
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 14px,
+        rgba(212, 168, 67, 0.1) 14px,
+        rgba(212, 168, 67, 0.1) 15px
+    );
 }
 
 .volunteer-intro {

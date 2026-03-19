@@ -16,6 +16,17 @@
     height: 80px;
 }
 
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.navbar-logo-img {
+    height: 48px;
+    width: auto;
+}
+
 .logo-text {
     font-family: var(--font-heading);
     font-size: 1.8rem;
@@ -192,7 +203,7 @@
     border: 1px solid var(--glass-border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border-radius: var(--radius-md);
-    min-width: 180px;
+    min-width: 100%;
     padding: var(--spacing-2) 0;
     list-style: none;
     z-index: 1000;

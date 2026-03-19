@@ -1,50 +1,95 @@
-.ramas-arrow-overlay {
+.ramas-arrow-backdrop {
   position: fixed;
   inset: 0;
   z-index: 9998;
-  background: #0d1117;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  animation: ramasArrowFadeIn 0.2s ease-out;
+}
+
+.ramas-arrow-modal {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: min(calc(100vw * 0.5625 + 44px), calc(100vh - 48px));
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  animation: ramasArrowSlideUp 0.25s ease-out;
+}
+
+.ramas-arrow-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #1a0b2e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.ramas-arrow-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.ramas-arrow-close {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c9d1d9;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.ramas-arrow-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.ramas-arrow-canvas-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  background: #1a0b2e;
 }
 
 .ramas-arrow-canvas {
-  width: 100%;
-  height: 100%;
   display: block;
   touch-action: none;
   cursor: crosshair;
 }
 
-.ramas-arrow-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 9999;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #c9d1d9;
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md, 8px);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
+@keyframes ramasArrowFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.ramas-arrow-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+@keyframes ramasArrowSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.ramas-arrow-hint {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 9999;
-  color: #484f58;
-  font-size: 12px;
-  font-family: var(--font-body, 'Inter', sans-serif);
+@media screen and (max-width: 640px) {
+  .ramas-arrow-backdrop {
+    padding: 12px;
+  }
+
+  .ramas-arrow-modal {
+    max-height: calc(100vh - 24px);
+  }
 }

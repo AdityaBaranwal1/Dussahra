@@ -6,6 +6,8 @@
 
 .family-page {
     padding-bottom: var(--spacing-24);
+    background-image: radial-gradient(circle, rgba(212, 168, 67, 0.1) 1px, transparent 1px);
+    background-size: 28px 28px;
 }
 
 /* --- Intro Section --- */

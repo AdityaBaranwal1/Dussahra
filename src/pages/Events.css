@@ -1,9 +1,16 @@
 .events-page {
     padding-bottom: var(--spacing-16);
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 24px,
+        rgba(212, 168, 67, 0.1) 24px,
+        rgba(212, 168, 67, 0.1) 25px
+    );
 }
 
 .event-container {
-    margin-top: var(--spacing-8);
+    margin-top: var(--spacing-12);
 }
 
 .events-grid {
@@ -64,10 +71,6 @@
 .event-desc {
     color: var(--color-text-main);
     line-height: 1.6;
-}
-
-.arrow-dash-slot {
-    margin-top: var(--spacing-6);
 }
 
 @media screen and (max-width: 768px) {

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { CheckmarkIcon, AlertIcon, PhoneIcon, PaymentIcon, ShieldCheckIcon } from '../components/icons/CulturalIcons';
-import { submitForm } from '../utils/formSubmit';
+import { submitBoothForm, submitZelleVerification } from '../utils/formSubmit';
+import { compressImage } from '../utils/imageCompress';
 import { EVENT_INFO } from '../data/event-info';
 import './BoothBooking.css';
 
@@ -48,12 +49,14 @@ export const BoothBooking = () => {
         description: ''
     });
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'zelle-finalized' | 'error'>('idle');
+    const [formId, setFormId] = useState('');
     const [zelleData, setZelleData] = useState({
         senderName: '',
         confirmationCode: '',
         screenshot: null as File | null,
     });
-    const [zelleStatus, setZelleStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+    const [zelleStatus, setZelleStatus] = useState<'idle' | 'submitting' | 'compressing' | 'success' | 'error'>('idle');
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -78,33 +81,66 @@ export const BoothBooking = () => {
         e.preventDefault();
         setStatus('submitting');
 
-        await submitForm(
-            { form_type: 'Booth Request', ...formData, calculatedTotal },
-            () => setStatus('success'),
-            () => setStatus('error')
-        );
+        try {
+            const result = await submitBoothForm({
+                boothType: formData.boothType,
+                additionalChair: formData.additionalChair,
+                additionalTable: formData.additionalTable,
+                calculatedTotal,
+                contactPerson: formData.contactPerson,
+                title: formData.title,
+                phone: formData.phone,
+                businessName: formData.businessName,
+                postalAddress: formData.postalAddress,
+                city: formData.city,
+                email: formData.email,
+                taxId: formData.taxId,
+                vendorPermit: formData.vendorPermit,
+                date: formData.date,
+                description: formData.description,
+            });
+            setFormId(result.formId || '');
+            setStatus('success');
+        } catch {
+            setStatus('error');
+        }
     };
 
     const handleZelleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setZelleStatus('submitting');
+        setZelleStatus('compressing');
 
-        await submitForm(
-            {
-                form_type: 'Zelle Verification',
-                businessName: formData.businessName,
+        try {
+            let screenshotBase64 = '';
+            let screenshotMimeType = 'image/jpeg';
+
+            if (zelleData.screenshot) {
+                const compressed = await compressImage(zelleData.screenshot);
+                screenshotBase64 = compressed.base64;
+                screenshotMimeType = compressed.mimeType;
+            }
+
+            setZelleStatus('submitting');
+
+            await submitZelleVerification({
+                formId,
                 senderName: zelleData.senderName,
                 confirmationCode: zelleData.confirmationCode,
-                amount: calculatedTotal,
-            },
-            () => setZelleStatus('success'),
-            () => setZelleStatus('idle')
-        );
+                screenshotBase64,
+                screenshotMimeType,
+                businessName: formData.businessName,
+            });
+            setZelleStatus('success');
+        } catch {
+            setZelleStatus('error');
+        }
     };
 
     const resetAll = () => {
         setStatus('idle');
+        setFormId('');
         setZelleStatus('idle');
+        setAgreedToTerms(false);
         setZelleData({ senderName: '', confirmationCode: '', screenshot: null });
         setFormData({
             businessName: '', contactPerson: '', title: '', phone: '', email: '',
@@ -130,15 +166,21 @@ export const BoothBooking = () => {
                     </div>
                     <div className="pricing-cards reveal reveal-delay-200">
                         {PRICING_GENERAL.map(tier => (
-                            <div key={tier.id} className="pricing-card glass-card card-shimmer mehndi-corner">
+                            <div key={tier.id} className={`pricing-card glass-card card-shimmer mehndi-corner${tier.type === 'Self Booth' ? ' pricing-card--self-booth' : ''}`}>
                                 <h3>{tier.type}</h3>
                                 <div className="price">{tier.price}</div>
                                 <div className="size">{tier.size}</div>
                                 <hr />
                                 <ul className="includes-list">
                                     <li><CheckmarkIcon size={16} /> {tier.includes}</li>
-                                    {tier.note && <li><AlertIcon size={16} /> {tier.note}</li>}
+                                    {tier.note && tier.type !== 'Self Booth' && <li><CheckmarkIcon size={16} /> {tier.note}</li>}
                                 </ul>
+                                {tier.type === 'Self Booth' && (
+                                    <div className="permit-fee-callout">
+                                        <AlertIcon size={16} />
+                                        <span><strong>+$25 Permit Fee</strong> — Tent/Canopy provided by vendor</span>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -259,21 +301,27 @@ export const BoothBooking = () => {
 
                                     <div className="form-group">
                                         <label className="form-label" htmlFor="booth-zelleSender">Zelle Sender Name</label>
-                                        <input id="booth-zelleSender" type="text" className="form-input" placeholder="Enter the name on your Zelle account" value={zelleData.senderName} onChange={e => setZelleData({ ...zelleData, senderName: e.target.value })} required disabled={zelleStatus === 'submitting'} />
+                                        <input id="booth-zelleSender" type="text" className="form-input" placeholder="Enter the name on your Zelle account" value={zelleData.senderName} onChange={e => setZelleData({ ...zelleData, senderName: e.target.value })} required disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'} />
                                     </div>
 
                                     <div className="form-group">
                                         <label className="form-label" htmlFor="booth-zelleScreenshot">Zelle Confirmation Screenshot</label>
-                                        <input id="booth-zelleScreenshot" type="file" className="form-input" accept="image/*" onChange={e => setZelleData({ ...zelleData, screenshot: e.target.files?.[0] || null })} disabled={zelleStatus === 'submitting'} />
+                                        <input id="booth-zelleScreenshot" type="file" className="form-input" accept="image/*" onChange={e => setZelleData({ ...zelleData, screenshot: e.target.files?.[0] || null })} disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'} />
                                     </div>
 
                                     <div className="form-group">
                                         <label className="form-label" htmlFor="booth-zelleCode">Confirmation Code</label>
-                                        <input id="booth-zelleCode" type="text" className="form-input" placeholder="Enter your Zelle confirmation/transaction code" value={zelleData.confirmationCode} onChange={e => setZelleData({ ...zelleData, confirmationCode: e.target.value })} required disabled={zelleStatus === 'submitting'} />
+                                        <input id="booth-zelleCode" type="text" className="form-input" placeholder="Enter your Zelle confirmation/transaction code" value={zelleData.confirmationCode} onChange={e => setZelleData({ ...zelleData, confirmationCode: e.target.value })} required disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'} />
                                     </div>
 
-                                    <button type="submit" className={`btn btn-primary btn-ripple submit-btn${zelleStatus === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={zelleStatus === 'submitting'}>
-                                        {zelleStatus === 'submitting' ? 'Submitting...' : 'Finalize Booking'}
+                                    {zelleStatus === 'error' && (
+                                        <div className="booth-error" role="alert">
+                                            Your application was submitted, but we could not upload your Zelle proof. Please try again or contact us directly.
+                                        </div>
+                                    )}
+
+                                    <button type="submit" className={`btn btn-primary btn-ripple submit-btn${zelleStatus !== 'idle' && zelleStatus !== 'error' ? ' booth-submit-opacity' : ''}`} disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'}>
+                                        {zelleStatus === 'compressing' ? 'Compressing image...' : zelleStatus === 'submitting' ? 'Uploading...' : 'Finalize Booking'}
                                     </button>
                                 </form>
                             )}
@@ -404,10 +452,21 @@ export const BoothBooking = () => {
                                 </div>
                             )}
 
-                            <button type="submit" className={`btn btn-primary btn-ripple submit-btn${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting'}>
+                            <label className="form-disclaimer-checkbox" htmlFor="booth-agreeTerms">
+                                <input
+                                    id="booth-agreeTerms"
+                                    type="checkbox"
+                                    checked={agreedToTerms}
+                                    onChange={e => setAgreedToTerms(e.target.checked)}
+                                    required
+                                    disabled={status === 'submitting'}
+                                />
+                                <span>I confirm that I have read and agree to the attached rules, terms and conditions and understand that Indo American Festivals, Inc. is not responsible for loss, theft or damage of my property. I will abide by the terms and conditions of Indo American Festivals, Inc. and the rules and regulations of Edison Township, New Jersey.</span>
+                            </label>
+
+                            <button type="submit" className={`btn btn-primary btn-ripple submit-btn${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting' || !agreedToTerms}>
                                 {status === 'submitting' ? 'Submitting...' : 'Submit Application'}
                             </button>
-                            <p className="form-disclaimer">By signing this document, I confirm that I have read and agree to the attached rules, terms and conditions and understand that Indo American Festivals, Inc. is not responsible for loss, theft or damage of my property. I will abide by the terms and conditions of Indo American Festivals, Inc. and the rules and regulations of Edison Township New Jersey.</p>
                         </form>
                     )}
                 </div>

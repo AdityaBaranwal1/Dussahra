@@ -59,6 +59,8 @@ export const GarlandDivider = ({ width = 800, sag = 50, flowers = 7 }: GarlandDi
             stagger: 0.12,
             duration: 1.5,
             onComplete: () => {
+                // Clear GSAP inline styles so CSS sway animation takes over cleanly
+                gsap.set(flowerEls, { clearProps: 'all' });
                 svgRef.current?.classList.add('garland-sway-active');
             },
         }, '-=0.6');

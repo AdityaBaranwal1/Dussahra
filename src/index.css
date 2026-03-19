@@ -353,6 +353,11 @@ UTILITIES: Glassmorphism & Depth
     padding: var(--spacing-16) 0 var(--spacing-8);
     text-align: center;
     background-color: var(--color-bg-base);
+    background-image:
+        linear-gradient(to bottom, rgba(10, 10, 11, 0.75), rgba(10, 10, 11, 0.85)),
+        url('/images/mandala-bg.png');
+    background-size: cover;
+    background-position: center;
 }
 
 .page-header-dark {

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef } from 'react';
 import { useGameEngine } from './useGameEngine';
 import './RamasArrow.css';
 
@@ -8,34 +8,25 @@ interface Props {
 
 export default function RamasArrow({ onClose }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { start, stop } = useGameEngine(canvasRef);
-
-  useEffect(() => {
-    start();
-    return stop;
-  }, [start, stop]);
-
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      onClose();
-    }
-  }, [onClose]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
+  useGameEngine(canvasRef, onClose);
 
   return (
-    <div className="ramas-arrow-overlay">
-      <button className="ramas-arrow-close" onClick={onClose} aria-label="Close game">
-        ✕
-      </button>
-      <div className="ramas-arrow-hint">Press Escape to close</div>
-      <canvas
-        ref={canvasRef}
-        className="ramas-arrow-canvas"
-      />
+    <div className="ramas-arrow-backdrop" onClick={onClose}>
+      <div className="ramas-arrow-modal" onClick={e => e.stopPropagation()}>
+        <div className="ramas-arrow-header">
+          <span className="ramas-arrow-title">Rama's Arrow</span>
+          <button
+            className="ramas-arrow-close"
+            onClick={onClose}
+            aria-label="Close game"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="ramas-arrow-canvas-wrap">
+          <canvas ref={canvasRef} className="ramas-arrow-canvas" />
+        </div>
+      </div>
     </div>
   );
 }

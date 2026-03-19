@@ -3,6 +3,43 @@ export interface Vec2 {
   y: number;
 }
 
+export type SpriteClipName = 'idle' | 'walk' | 'shoot' | 'run';
+
+export interface SpriteClipDefinition {
+  src: string;
+  frameWidth: number;
+  frameHeight: number;
+  frameCount: number;
+  fps: number;
+  loop: boolean;
+  rowIndex: number;
+  normalizedFrameSize: number;
+  anchor: Vec2;
+}
+
+export type SpriteAssets = Partial<Record<SpriteClipName, HTMLImageElement>>;
+
+export interface PlayerAnimationState {
+  clip: SpriteClipName;
+  frame: number;
+  elapsed: number;
+  locked: boolean;
+}
+
+export interface Player {
+  x: number;
+  y: number;
+  minX: number;
+  maxX: number;
+  walkSpeed: number;
+  runSpeed: number;
+  vx: number;
+  isRunning: boolean;
+  rotation: number;
+  displayScale: number;
+  animation: PlayerAnimationState;
+}
+
 export interface Arrow {
   x: number;
   y: number;
@@ -12,6 +49,25 @@ export interface Arrow {
   active: boolean;
   stuck: boolean;
   stuckTime: number;
+  piercing: boolean;
+}
+
+export interface HeadHitZone {
+  x: number;
+  y: number;
+  radius: number;
+  hit: boolean;
+}
+
+export interface Effigy {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  heads: HeadHitZone[];
+  bodyHits: number;
+  swayOffset: number;
+  swayDir: number;
 }
 
 export interface FireParticle {
@@ -22,7 +78,8 @@ export interface FireParticle {
   life: number;
   maxLife: number;
   size: number;
-  color: string;
+  sourceX: number;
+  sourceY: number;
 }
 
 export interface FireSource {
@@ -31,58 +88,54 @@ export interface FireSource {
   intensity: number;
 }
 
-export interface HeadHitZone {
-  x: number;
-  y: number;
-  radius: number;
-  hit: boolean;
-  fireSource: FireSource | null;
-}
-
-export interface Effigy {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  heads: HeadHitZone[];
-  bodyHits: FireSource[];
-  totalHits: number;
-  burning: boolean;
-  burnProgress: number;
-  ashProgress: number;
-}
-
-export interface BowState {
-  x: number;
-  y: number;
-  angle: number;
+export interface AimState {
+  aiming: boolean;
+  startX: number;
+  startY: number;
+  currentX: number;
+  currentY: number;
   power: number;
-  maxPower: number;
-  drawing: boolean;
-  drawStart: Vec2 | null;
-  drawCurrent: Vec2 | null;
+  angle: number;
 }
 
-export type GamePhase = 'ready' | 'aiming' | 'flying' | 'hit' | 'win';
+export type GamePhase = 'ready' | 'aiming' | 'flying' | 'hit' | 'won' | 'lost';
 
 export interface GameState {
   phase: GamePhase;
-  bow: BowState;
   arrow: Arrow | null;
+  player: Player;
   effigy: Effigy;
-  particles: FireParticle[];
+  aim: AimState;
+  fireSources: FireSource[];
+  fireParticles: FireParticle[];
   arrowsLeft: number;
-  maxArrows: number;
+  totalArrows: number;
+  headsHit: number;
+  totalHeads: number;
   timer: number;
   bestTime: number | null;
-  hitStreak: number;
-  totalHits: number;
-  canvasWidth: number;
-  canvasHeight: number;
+  finalBurn: boolean;
+  finalBurnProgress: number;
+  wind: number;
+  consecutiveHits: number;
+  bestStreak: number;
+  showVictory: boolean;
+  crowdCheer: number;
+  clouds: Cloud[];
+  runInProgress: boolean;
 }
 
-export const GRAVITY = 600;
-export const MAX_PARTICLES = 200;
-export const HITS_TO_WIN = 7;
-export const MAX_ARROWS = 10;
-export const ARROW_SPEED_MULTIPLIER = 3.5;
+export interface CanvasDimensions {
+  width: number;
+  height: number;
+  scale: number;
+}
+
+export interface Cloud {
+  x: number;
+  y: number;
+  speed: number;
+  width: number;
+  height: number;
+  opacity: number;
+}

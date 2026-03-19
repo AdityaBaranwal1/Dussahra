@@ -5,7 +5,25 @@
       "Bash(npm run:*)",
       "WebSearch",
       "WebFetch(domain:uiverse.io)",
-      "Bash(cd \"F:/Code/Dussahra \\(NEW\\)\" && npx tsc --noEmit 2>&1 | head -30)"
+      "Bash(cd \"F:/Code/Dussahra \\(NEW\\)\" && npx tsc --noEmit 2>&1 | head -30)",
+      "Bash(tasklist /FI \"PID eq 36244\" /FO TABLE)",
+      "Bash(cmd //c \"tasklist /FI \\\\\"PID eq 36244\\\\\" /FO TABLE\")",
+      "Bash(MSYS_NO_PATHCONV=1 tasklist //FI \"PID eq 36244\" //FO TABLE)",
+      "Bash(cmd.exe /c \"tasklist /FI \"\"PID eq 36244\"\"\")",
+      "Bash(wmic process:*)",
+      "WebFetch(domain:landonorris.com)",
+      "Bash(find \"F:\\\\Code\\\\Dussahra \\(NEW\\)\\\\public\\\\images\" -type f | head -20)",
+      "Bash(ls -la \"F:\\\\Code\\\\Dussahra \\(NEW\\)\\\\public\\\\images\\\\sprites\\\\\" 2>/dev/null | head -20)",
+      "Bash(ls -la \"F:\\\\Code\\\\Dussahra \\(NEW\\)\\\\Media\" 2>/dev/null | head -30)",
+      "WebFetch(domain:replicate.com)",
+      "WebFetch(domain:blog.fal.ai)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:leonardo.ai)",
+      "Bash(git clone:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(curl:*)"
     ]
   }
 }

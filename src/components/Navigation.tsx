@@ -88,6 +88,7 @@ export const Navigation = () => {
         <nav className="navbar" aria-label="Main navigation">
             <div className="navbar-container container">
                 <Link to="/" className="navbar-logo" onClick={closeAll}>
+                    <img src="/iaf-logo.png" alt="Indo-American Festivals Inc." className="navbar-logo-img" />
                     <span className="logo-text">Dushahra</span>
                 </Link>
 

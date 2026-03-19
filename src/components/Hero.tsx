@@ -1,11 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 
 import { useVisibility } from '../hooks/useVisibility';
 import { EVENT_INFO } from '../data/event-info';
+import { BowArrowIcon } from './icons/CulturalIcons';
 import './Hero.css';
+
+const RamasArrow = lazy(() => import('../game/RamasArrow/RamasArrow'));
 
 gsap.registerPlugin(SplitText);
 
@@ -14,7 +17,9 @@ export const Hero = () => {
         days: 0, hours: 0, minutes: 0, seconds: 0
     });
 
+    const [gameOpen, setGameOpen] = useState(false);
     const titleRef = useRef<HTMLHeadingElement>(null);
+    const taglineRef = useRef<HTMLParagraphElement>(null);
     const editionRef = useRef<HTMLSpanElement>(null);
     const subtitleRef = useRef<HTMLParagraphElement>(null);
     const { ref: heroVisRef, isVisible } = useVisibility<HTMLElement>();
@@ -72,12 +77,19 @@ export const Hero = () => {
                 ease: 'power3.out',
             }, '-=0.3');
 
+            tl.from(taglineRef.current, {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: 'power2.out',
+            }, '-=0.1');
+
             tl.from(subtitleRef.current, {
                 opacity: 0,
                 y: 15,
                 duration: 0.6,
                 ease: 'power2.out',
-            }, '-=0.2');
+            }, '-=0.4');
         });
 
         return () => ctx.revert();
@@ -87,8 +99,9 @@ export const Hero = () => {
         <section className="hero-container" ref={heroVisRef}>
             <div className={`hero-overlay${isVisible ? '' : ' hero-overlay-paused'}`}></div>
             <div className="hero-content container">
-                <span ref={editionRef} className="hero-edition text-shimmer">{EVENT_INFO.editionLabel}</span>
-                <h1 ref={titleRef} className="hero-title">The Night of Triumph</h1>
+                <span ref={editionRef} className="hero-edition">{EVENT_INFO.editionLabel}</span>
+                <h1 ref={titleRef} className="hero-title">Dushahra 2026</h1>
+                <p ref={taglineRef} className="hero-tagline">The Night of Triumph</p>
                 <p ref={subtitleRef} className="hero-subtitle">{EVENT_INFO.eventDateShort} | New Jersey</p>
                 <p className="hero-rain-date">Rain Date: {EVENT_INFO.rainDate}</p>
 
@@ -97,7 +110,21 @@ export const Hero = () => {
                     <Link to="/events" className="btn btn-secondary hero-btn hero-btn-outline btn-ripple">View Schedule</Link>
                 </div>
 
-                <div className="countdown-container" aria-live="polite" aria-label="Countdown to Dussehra 2026">
+                <button
+                    className="hero-game-link"
+                    onClick={() => setGameOpen(true)}
+                >
+                    <BowArrowIcon size={16} />
+                    <span>Play Rama's Arrow</span>
+                </button>
+
+                {gameOpen && (
+                    <Suspense fallback={null}>
+                        <RamasArrow onClose={() => setGameOpen(false)} />
+                    </Suspense>
+                )}
+
+                <div className="countdown-container" aria-live="polite" aria-label="Countdown to Dushahra 2026">
                     <div className="countdown-box">
                         <span className="countdown-num">{timeLeft.days}</span>
                         <span className="countdown-label">Days</span>
