@@ -1,6 +1,6 @@
 export const EVENT_INFO = {
     edition: 28,
-    editionLabel: '28th Annual Edition',
+    editionLabel: '28th Annual Dushahra',
     eventDate: '2026-10-10',
     eventDateDisplay: 'October 10th, 2026',
     eventDateShort: 'October 10th',
