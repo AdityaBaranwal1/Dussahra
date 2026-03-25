@@ -9,7 +9,7 @@ const SHEET_NAME = 'Dushahra Submissions';
 const HEADERS = [
   'Timestamp', 'FormId', 'Status', 'BoothType', 'AdditionalChairs', 'AdditionalTables',
   'Total', 'ContactPerson', 'Title', 'Phone', 'BusinessName', 'PostalAddress', 'City',
-  'Email', 'TaxId', 'VendorPermit', 'Date', 'Description',
+  'Email', 'TaxId', 'VendorPermit', 'Date', 'Description', 'TermsAgreement',
   'ZelleSenderName', 'ZelleConfirmationCode', 'ZelleScreenshot', 'ZelleScreenshotDriveUrl', 'ZelleVerifiedAt'
 ];
 
@@ -69,6 +69,7 @@ function handleBoothApplication_(body) {
     body.vendorPermit     || '',     // VendorPermit
     body.date             || '',     // Date
     body.description      || '',     // Description
+    'I/We agree to abide by the terms and conditions established by Indo American Festivals, Inc. And confirm that we will fully comply with all requirements.',  // TermsAgreement
     '',                              // ZelleSenderName
     '',                              // ZelleConfirmationCode
     '',                              // ZelleScreenshot
@@ -111,12 +112,12 @@ function handleZelleVerification_(body) {
     .build();
 
   // ── Update the matched row ────────────────────────────────
-  // Column indices are 1-based in Sheets: S=19, T=20, U=21, V=22, W=23, C=3
-  sheet.getRange(targetRow, 19).setValue(body.senderName);           // ZelleSenderName
-  sheet.getRange(targetRow, 20).setValue(body.confirmationCode);     // ZelleConfirmationCode
-  sheet.getRange(targetRow, 21).setValue(cellImage);                 // ZelleScreenshot (CellImage)
-  sheet.getRange(targetRow, 22).setValue(fileUrl);                   // ZelleScreenshotDriveUrl
-  sheet.getRange(targetRow, 23).setValue(new Date().toISOString());  // ZelleVerifiedAt
+  // Column indices are 1-based in Sheets: T=20, U=21, V=22, W=23, X=24, C=3
+  sheet.getRange(targetRow, 20).setValue(body.senderName);           // ZelleSenderName
+  sheet.getRange(targetRow, 21).setValue(body.confirmationCode);     // ZelleConfirmationCode
+  sheet.getRange(targetRow, 22).setValue(cellImage);                 // ZelleScreenshot (CellImage)
+  sheet.getRange(targetRow, 23).setValue(fileUrl);                   // ZelleScreenshotDriveUrl
+  sheet.getRange(targetRow, 24).setValue(new Date().toISOString());  // ZelleVerifiedAt
   sheet.getRange(targetRow, 3).setValue('Zelle Submitted');          // Status
 
   return jsonResponse_({ status: 'ok' });

@@ -151,6 +151,19 @@
     cursor: pointer;
 }
 
+.form-compliance-checkbox {
+    border: 1px solid rgba(255, 183, 3, 0.3);
+    background: rgba(255, 183, 3, 0.05);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+}
+
+.form-compliance-checkbox:hover {
+    background: rgba(255, 183, 3, 0.08);
+    border-color: rgba(255, 183, 3, 0.5);
+}
+
 .addons-section {
     max-width: 600px;
     margin: var(--spacing-8) auto 0 auto;

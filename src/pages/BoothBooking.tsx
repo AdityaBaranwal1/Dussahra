@@ -57,6 +57,7 @@ export const BoothBooking = () => {
     });
     const [zelleStatus, setZelleStatus] = useState<'idle' | 'submitting' | 'compressing' | 'success' | 'error'>('idle');
     const [agreedToTerms, setAgreedToTerms] = useState(false);
+    const [agreedToCompliance, setAgreedToCompliance] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -141,6 +142,7 @@ export const BoothBooking = () => {
         setFormId('');
         setZelleStatus('idle');
         setAgreedToTerms(false);
+        setAgreedToCompliance(false);
         setZelleData({ senderName: '', confirmationCode: '', screenshot: null });
         setFormData({
             businessName: '', contactPerson: '', title: '', phone: '', email: '',
@@ -464,7 +466,19 @@ export const BoothBooking = () => {
                                 <span>I confirm that I have read and agree to the attached rules, terms and conditions and understand that Indo American Festivals, Inc. is not responsible for loss, theft or damage of my property. I will abide by the terms and conditions of Indo American Festivals, Inc. and the rules and regulations of Edison Township, New Jersey.</span>
                             </label>
 
-                            <button type="submit" className={`btn btn-primary btn-ripple submit-btn${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting' || !agreedToTerms}>
+                            <label className="form-disclaimer-checkbox form-compliance-checkbox" htmlFor="booth-agreeCompliance">
+                                <input
+                                    id="booth-agreeCompliance"
+                                    type="checkbox"
+                                    checked={agreedToCompliance}
+                                    onChange={e => setAgreedToCompliance(e.target.checked)}
+                                    required
+                                    disabled={status === 'submitting'}
+                                />
+                                <span>I/We agree to abide by the terms and conditions established by Indo American Festivals, Inc. And confirm that we will fully comply with all requirements.</span>
+                            </label>
+
+                            <button type="submit" className={`btn btn-primary btn-ripple submit-btn${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting' || !agreedToTerms || !agreedToCompliance}>
                                 {status === 'submitting' ? 'Submitting...' : 'Submit Application'}
                             </button>
                         </form>
