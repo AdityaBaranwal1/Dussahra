@@ -1,13 +1,18 @@
 import './MediaGrid.css';
 
 const PHOTO_DATA = [
-    { id: 1, url: '/images/gallery/photo2.webp', alt: 'Ram Leela Performance' },
-    { id: 2, url: '/images/gallery/photo3.jpg', alt: 'Festival Celebrations' },
-    { id: 3, url: '/images/gallery/photo4.jpg', alt: 'Community Gathering' },
-    { id: 4, url: '/images/gallery/photo5.webp', alt: 'Ravan Dahan Setup' },
-    { id: 5, url: '/images/gallery/photo6.jpg', alt: 'Festivities' },
-    { id: 6, url: '/images/gallery/photo7.jpg', alt: 'Evening Program' },
-    { id: 7, url: '/images/gallery/photo8.jpg', alt: 'Past Celebrations' },
+    { id: 1, url: '/images/gallery/DUSHAHRA-PHOTO-ONE-RAVAN.jpg', alt: 'Ravan Effigy at Dussehra Festival' },
+    { id: 2, url: '/images/gallery/Ram_Lakshman_SitaHanuman_Pic-1.jpg', alt: 'Ram, Lakshman, Sita & Hanuman' },
+    { id: 3, url: '/images/gallery/photo2.webp', alt: 'Ram Leela Performance' },
+    { id: 4, url: '/images/gallery/photo3.jpg', alt: 'Festival Celebrations' },
+    { id: 5, url: '/images/gallery/473569565_3260869030720093_659429918608366722_n.jpg', alt: 'Festival Highlights' },
+    { id: 6, url: '/images/gallery/484000207_1049737137199351_7671589044877751254_n.jpg', alt: 'Community Celebration' },
+    { id: 7, url: '/images/gallery/photo4.jpg', alt: 'Community Gathering' },
+    { id: 8, url: '/images/gallery/photo5.webp', alt: 'Ravan Dahan Setup' },
+    { id: 9, url: '/images/gallery/506634869_3420424851431176_4775225427117286899_n.jpg', alt: 'Festival Moments' },
+    { id: 10, url: '/images/gallery/72065020_1595374497269563_2043957494304210944_n.jpg', alt: 'Cultural Program' },
+    { id: 11, url: '/images/gallery/photo6.jpg', alt: 'Festivities' },
+    { id: 12, url: '/images/gallery/photo7.jpg', alt: 'Evening Program' },
 ];
 
 export const Photos = () => {
