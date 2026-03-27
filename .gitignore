@@ -28,3 +28,12 @@ Project Breakdown
 GAME-PROMPT.md
 IAF-Volunteer_Agreement_and_Policy-2023.pdf
 PLAN-A-UI-FIXES.md
+
+# SSH keys — never commit
+id_rsa
+id_rsa.pub
+
+# Reference site / media assets
+REFERENCEMATT/
+Media/
+mainherobgv2.png

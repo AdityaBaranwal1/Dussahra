@@ -1,15 +1,13 @@
 import './MediaGrid.css';
 
 const PHOTO_DATA = [
-    { id: 1, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-62-scaled.jpg', alt: 'Festival Crowd' },
-    { id: 2, url: 'https://www.dushahra.com/wp-content/uploads/2023/04/2022-Dushahra-Festiva-513-scaled-1.webp', alt: 'Ram Leela Performance' },
-    { id: 3, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-109-scaled.jpg', alt: 'Decorations' },
-    { id: 4, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-55-scaled.jpg', alt: 'Food Stalls' },
-    { id: 5, url: 'https://www.dushahra.com/wp-content/uploads/2023/04/2022-Dushahra-Festiva-593-scaled-1.webp', alt: 'Ravan Dahan Setup' },
-    { id: 6, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-27-1-scaled.jpg', alt: 'Community Gather' },
-    { id: 7, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-22-1-scaled.jpg', alt: 'Festivities' },
-    { id: 8, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-225-scaled.jpg', alt: 'Evening Program' },
-    { id: 9, url: 'https://www.dushahra.com/wp-content/uploads/2022/10/2022-Dushahra-Festiva-385-scaled.jpg', alt: 'Main Wide Shot' }
+    { id: 1, url: '/images/gallery/photo2.webp', alt: 'Ram Leela Performance' },
+    { id: 2, url: '/images/gallery/photo3.jpg', alt: 'Festival Celebrations' },
+    { id: 3, url: '/images/gallery/photo4.jpg', alt: 'Community Gathering' },
+    { id: 4, url: '/images/gallery/photo5.webp', alt: 'Ravan Dahan Setup' },
+    { id: 5, url: '/images/gallery/photo6.jpg', alt: 'Festivities' },
+    { id: 6, url: '/images/gallery/photo7.jpg', alt: 'Evening Program' },
+    { id: 7, url: '/images/gallery/photo8.jpg', alt: 'Past Celebrations' },
 ];
 
 export const Photos = () => {

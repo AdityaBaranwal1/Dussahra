@@ -15,7 +15,7 @@ export const Highlights = () => {
 
                 <div className="highlights-grid">
                     <div className="highlight-card glass-card card-shimmer card-float reveal reveal-delay-100 mehndi-corner">
-                        <img src="https://www.dushahra.com/wp-content/uploads/2022/09/30-ft-Ravan-Effigy.jpg" alt="Ravan Effigy" className="highlight-image" loading="lazy" />
+                        <img src="/images/ravan-effigy.jpg" alt="Ravan Effigy" className="highlight-image" loading="lazy" />
                         <div className="highlight-icon"><FlameIcon size={48} /></div>
                         <h3>Ravan Dahan</h3>
                         <p>Witness the spectacular burning of the 50-foot effigies, a majestic symbol of victory and light.</p>
@@ -23,7 +23,7 @@ export const Highlights = () => {
                     </div>
 
                     <div className="highlight-card glass-card card-shimmer card-float reveal reveal-delay-200 mehndi-corner">
-                        <img src="https://www.dushahra.com/wp-content/uploads/2022/09/Dazzling-Ram-Leela.jpg" alt="Ram Leela" className="highlight-image" loading="lazy" />
+                        <img src="/images/ram-leela.jpg" alt="Ram Leela" className="highlight-image" loading="lazy" />
                         <div className="highlight-icon"><BowArrowIcon size={48} /></div>
                         <h3>Ram Leela</h3>
                         <p>Enjoy the dramatic folk re-enactment of the life of Lord Rama, performed by talented local artists.</p>
@@ -31,7 +31,7 @@ export const Highlights = () => {
                     </div>
 
                     <div className="highlight-card glass-card card-shimmer card-float reveal reveal-delay-300 mehndi-corner">
-                        <img src="https://www.dushahra.com/wp-content/uploads/2022/09/Cultural-Programs.jpg" alt="Cultural Programs" className="highlight-image" loading="lazy" />
+                        <img src="/images/cultural-programs.jpg" alt="Cultural Programs" className="highlight-image" loading="lazy" />
                         <div className="highlight-icon"><BazaarIcon size={48} /></div>
                         <h3>Meena Bazaar</h3>
                         <p>Shop for traditional clothing, jewelry, and crafts, and taste incredible food from our diverse vendors.</p>
