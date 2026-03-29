@@ -156,7 +156,7 @@ export const BoothBooking = () => {
             <div className="page-header temple-arch">
                 <div className="container">
                     <h1 className="page-title text-shimmer">Vendor Booth Booking</h1>
-                    <p className="page-subtitle">Reserve your space at the {EVENT_INFO.editionLabel.replace(' Edition', '')} Dushahra Festival</p>
+                    <p className="page-subtitle">Reserve your space at the {EVENT_INFO.editionLabel.replace(' Edition', '')} Festival</p>
                 </div>
             </div>
 
