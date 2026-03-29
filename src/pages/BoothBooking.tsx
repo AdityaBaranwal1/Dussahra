@@ -252,13 +252,7 @@ export const BoothBooking = () => {
 
                     <div className="cancellation-policy booth-cancellation">
                         <strong className="booth-cancellation-title"><AlertIcon size={18} /> Cancellation Policy</strong>
-                        <p className="booth-cancellation-intro">All cancellations must be in writing.</p>
-                        <ul className="booth-cancellation-list">
-                            <li>If canceled before July 31st, a full refund will be issued.</li>
-                            <li>From August 1 to {EVENT_INFO.cancellationDeadline}, a 50% refund will be issued based on the full published price of the booth. No refund will be issued thereafter.</li>
-                            <li>If the event is moved to the rain date ({EVENT_INFO.rainDate}), no refunds will be given.</li>
-                            <li>No refunds will be issued after {EVENT_INFO.cancellationDeadline}, or due to rain, rain date changes, or any act of God.</li>
-                        </ul>
+                        <p className="booth-cancellation-intro">There are no cancellations and no refunds. All sales are final.</p>
                     </div>
                 </div>
 

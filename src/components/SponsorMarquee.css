@@ -58,13 +58,13 @@
     display: flex;
     gap: var(--spacing-10);
     width: max-content;
-    animation: scrollMarquee 30s linear infinite;
+    animation: scrollMarquee 60s linear infinite;
     will-change: transform;
 }
 
 .marquee-track-reverse {
     animation-direction: reverse;
-    animation-duration: 35s;
+    animation-duration: 70s;
 }
 
 .marquee-track:hover,

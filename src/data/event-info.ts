@@ -29,6 +29,6 @@ export const EVENT_INFO = {
         { name: 'Amit Gupta', phone: '817-714-6267' },
         { name: 'VishvJeet', phone: '512-657-8678' },
         { name: 'Shiva Arya', phone: '732-572-2675' },
-        { name: 'Shalini Chabra', phone: '732-915-5634' },
+        { name: 'Shalini Chhabra', phone: '732-915-5634' },
     ],
 } as const;

@@ -6,6 +6,7 @@
    ============================================================ */
 
 const SHEET_NAME = 'Dushahra Submissions';
+const NOTIFY_EMAIL = 'dushahra.usa@gmail.com';
 const HEADERS = [
   'Timestamp', 'FormId', 'Status', 'BoothType', 'AdditionalChairs', 'AdditionalTables',
   'Total', 'ContactPerson', 'Title', 'Phone', 'BusinessName', 'PostalAddress', 'City',
@@ -51,7 +52,7 @@ function handleBoothApplication_(body) {
   ensureHeaderRow_(sheet);
 
   var row = [
-    new Date().toISOString(),        // Timestamp
+    getEasternTimestamp_(),          // Timestamp
     formId,                          // FormId
     'Pending',                       // Status
     body.boothType        || '',     // BoothType
@@ -79,6 +80,8 @@ function handleBoothApplication_(body) {
 
   sheet.appendRow(row);
 
+  sendNotificationEmail_(body, formId);
+
   return jsonResponse_({ status: 'ok', formId: formId });
 }
 
@@ -92,33 +95,36 @@ function handleZelleVerification_(body) {
     return jsonResponse_({ status: 'error', message: 'Application not found' });
   }
 
-  // ── Decode screenshot & persist to Drive ──────────────────
-  var decoded   = Utilities.base64Decode(body.screenshotBase64);
-  var blob      = Utilities.newBlob(decoded, body.screenshotMimeType);
-  var sanitized = sanitizeFilename_(body.businessName);
-
-  blob.setName(body.formId + '_' + sanitized + '.jpg');
-
-  var rootFolderId = PropertiesService.getScriptProperties().getProperty('DRIVE_FOLDER_ID');
-  var rootFolder   = DriveApp.getFolderById(rootFolderId);
-  var yearFolder   = getOrCreateYearFolder_(rootFolder);
-  var file         = yearFolder.createFile(blob);
-  var fileUrl      = file.getUrl();
-
-  // ── Build CellImage from original base64 ──────────────────
-  var dataUri   = 'data:' + body.screenshotMimeType + ';base64,' + body.screenshotBase64;
-  var cellImage = SpreadsheetApp.newCellImage()
-    .setSourceUrl(dataUri)
-    .build();
-
   // ── Update the matched row ────────────────────────────────
   // Column indices are 1-based in Sheets: T=20, U=21, V=22, W=23, X=24, C=3
   sheet.getRange(targetRow, 20).setValue(body.senderName);           // ZelleSenderName
   sheet.getRange(targetRow, 21).setValue(body.confirmationCode);     // ZelleConfirmationCode
-  sheet.getRange(targetRow, 22).setValue(cellImage);                 // ZelleScreenshot (CellImage)
-  sheet.getRange(targetRow, 23).setValue(fileUrl);                   // ZelleScreenshotDriveUrl
-  sheet.getRange(targetRow, 24).setValue(new Date().toISOString());  // ZelleVerifiedAt
-  sheet.getRange(targetRow, 3).setValue('Zelle Submitted');          // Status
+
+  // ── Decode screenshot & persist to Drive (if provided) ────
+  if (body.screenshotBase64) {
+    var decoded   = Utilities.base64Decode(body.screenshotBase64);
+    var blob      = Utilities.newBlob(decoded, body.screenshotMimeType);
+    var sanitized = sanitizeFilename_(body.businessName);
+
+    blob.setName(body.formId + '_' + sanitized + '.jpg');
+
+    var rootFolderId = PropertiesService.getScriptProperties().getProperty('DRIVE_FOLDER_ID');
+    var rootFolder   = DriveApp.getFolderById(rootFolderId);
+    var yearFolder   = getOrCreateYearFolder_(rootFolder);
+    var file         = yearFolder.createFile(blob);
+    var fileUrl      = file.getUrl();
+
+    var dataUri   = 'data:' + body.screenshotMimeType + ';base64,' + body.screenshotBase64;
+    var cellImage = SpreadsheetApp.newCellImage()
+      .setSourceUrl(dataUri)
+      .build();
+
+    sheet.getRange(targetRow, 22).setValue(cellImage);               // ZelleScreenshot (CellImage)
+    sheet.getRange(targetRow, 23).setValue(fileUrl);                  // ZelleScreenshotDriveUrl
+  }
+
+  sheet.getRange(targetRow, 24).setValue(getEasternTimestamp_());    // ZelleVerifiedAt
+  sheet.getRange(targetRow, 3).setValue('Submitted');                // Status
 
   return jsonResponse_({ status: 'ok' });
 }
@@ -191,4 +197,38 @@ function jsonResponse_(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ── Helper: send email notification on new application ──────
+
+function sendNotificationEmail_(body, formId) {
+  var subject = 'New Booth Application: ' + (body.businessName || 'Unknown');
+  var htmlBody = '<h2>New Vendor Booth Application</h2>'
+    + '<table style="border-collapse:collapse;font-family:sans-serif;">'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Form ID</td><td style="padding:4px 12px;">' + formId + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Business Name</td><td style="padding:4px 12px;">' + (body.businessName || '') + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Contact Person</td><td style="padding:4px 12px;">' + (body.contactPerson || '') + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Phone</td><td style="padding:4px 12px;">' + (body.phone || '') + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Email</td><td style="padding:4px 12px;">' + (body.email || '') + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Booth Type</td><td style="padding:4px 12px;">' + (body.boothType || '') + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Total</td><td style="padding:4px 12px;">$' + (body.calculatedTotal || '0') + '</td></tr>'
+    + '<tr><td style="padding:4px 12px;font-weight:bold;">Description</td><td style="padding:4px 12px;">' + (body.description || '') + '</td></tr>'
+    + '</table>'
+    + '<p style="margin-top:16px;color:#666;">This is an automated notification from the Dussehra Booth Booking system.</p>';
+
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: subject,
+    htmlBody: htmlBody
+  });
+}
+
+// ── Helper: Eastern Time timestamp ──────────────────────────
+
+function getEasternTimestamp_() {
+  return Utilities.formatDate(
+    new Date(),
+    'America/New_York',
+    "yyyy-MM-dd'T'HH:mm:ss.SSS zzz"
+  );
 }
