@@ -100,7 +100,7 @@ export const Hero = () => {
             <div className={`hero-overlay${isVisible ? '' : ' hero-overlay-paused'}`}></div>
             <div className="hero-content container">
                 <span ref={editionRef} className="hero-edition">{EVENT_INFO.editionLabel}</span>
-                <h1 ref={titleRef} className="hero-title">Dussehra 2026</h1>
+                <h1 ref={titleRef} className="hero-title">Dushahra 2026</h1>
                 <p ref={taglineRef} className="hero-tagline">The Night of Triumph</p>
                 <p ref={subtitleRef} className="hero-subtitle">October 10th 2026 | Edison, New Jersey</p>
                 <p className="hero-rain-date">Rain Date: {EVENT_INFO.rainDate}</p>
