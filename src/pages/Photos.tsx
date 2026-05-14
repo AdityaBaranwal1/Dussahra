@@ -1,3 +1,4 @@
+import { PageHeader } from '../components/PageHeader';
 import './MediaGrid.css';
 
 const PHOTO_DATA = [
@@ -14,12 +15,7 @@ const PHOTO_DATA = [
 export const Photos = () => {
     return (
         <div className="media-page pos-relative">
-            <div className="page-header z-2">
-                <div className="container">
-                    <h1 className="page-title text-shimmer">Photo Gallery</h1>
-                    <p className="page-subtitle">A look back at our magnificent celebrations</p>
-                </div>
-            </div>
+            <PageHeader title="Photo Gallery" subtitle="A look back at our magnificent celebrations" raised shimmer />
 
             <div className="container mt-spacing-8 z-2">
                 <div className="media-grid">

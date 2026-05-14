@@ -1,4 +1,3 @@
-
 import { SPONSORS } from '../data/sponsors';
 import { useVisibility } from '../hooks/useVisibility';
 import './SponsorMarquee.css';
@@ -18,7 +17,7 @@ export const SponsorMarquee = () => {
                 <div className="marquee-row">
                     <div className={trackClass}>
                         {SPONSORS.map(sponsor => (
-                            <img src={sponsor.imgUrl} alt={`${sponsor.name} logo`} className="sponsor-logo" key={`row1-${sponsor.id}`} loading="lazy" />
+                            <img src={sponsor.imgUrl} alt={sponsor.name ? `${sponsor.name} logo` : ''} className="sponsor-logo" key={`row1-${sponsor.id}`} loading="lazy" />
                         ))}
                         {SPONSORS.map(sponsor => (
                             <img src={sponsor.imgUrl} alt="" className="sponsor-logo" key={`row1-dup-${sponsor.id}`} loading="lazy" aria-hidden="true" />

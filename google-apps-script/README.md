@@ -31,8 +31,13 @@ https://drive.google.com/drive/folders/1ui89h6Xex9rn5esRvKnJ0w27jAAy1oB7?usp=dri
 
 ### 4. Update the Frontend
 
-1. Open `src/utils/formSubmit.ts`
-2. Replace `'YOUR_GOOGLE_SCRIPT_WEB_APP_URL'` with the Web app URL from Step 3
+1. Copy `.env.example` to `.env` at the repo root
+2. Set `VITE_SCRIPT_URL=` to the Web app URL from Step 3
+3. Restart `npm run dev` so Vite picks up the new env var
+
+If `VITE_SCRIPT_URL` is empty or unset, the forms run in **demo mode** — they
+simulate a successful submission without making any network call. Useful for
+local UI work.
 
 ### 5. Verify
 
@@ -48,14 +53,20 @@ https://drive.google.com/drive/folders/1ui89h6Xex9rn5esRvKnJ0w27jAAy1oB7?usp=dri
 ```
 Browser (React)
   │
-  ├─ Phase 1: POST { form_type: 'booth_application', ...fields }
+  ├─ Booth — Phase 1: POST { form_type: 'booth_application', ...fields }
   │    → Apps Script creates row, returns { formId }
   │
-  └─ Phase 2: POST { form_type: 'zelle_verification', formId, base64 image, ... }
-       → Apps Script finds row by formId
-       → Saves image to Drive (year subfolder)
-       → Embeds CellImage thumbnail in sheet
-       → Updates Zelle columns + Status
+  ├─ Booth — Phase 2: POST { form_type: 'zelle_verification', formId, base64 image, ... }
+  │    → Apps Script finds row by formId
+  │    → Saves image to Drive (year subfolder)
+  │    → Embeds CellImage thumbnail in sheet
+  │    → Updates Zelle columns + Status
+  │
+  ├─ Volunteer — POST { form_type: 'Volunteer Sign-Up', ...fields, optional fileBase64 }
+  │    → Emails NOTIFY_EMAIL with details (and attachment if present)
+  │
+  └─ Contact — POST { form_type: 'Contact Us', name, email, subject, message }
+       → Emails NOTIFY_EMAIL with reply-to set to the sender
 ```
 
 ## Redeployment

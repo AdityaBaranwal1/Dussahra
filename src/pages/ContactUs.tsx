@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { LocationPinIcon, MailIcon, PhoneIcon, FaxIcon, CheckmarkIcon } from '../components/icons/CulturalIcons';
+import { LocationPinIcon, MailIcon, PhoneIcon, FaxIcon } from '../components/icons/CulturalIcons';
+import { PageHeader } from '../components/PageHeader';
+import { FormField } from '../components/forms/FormField';
+import { FormSuccess } from '../components/forms/FormSuccess';
+import { FormError } from '../components/forms/FormError';
+import { useFormSubmission } from '../hooks/useFormSubmission';
 import { submitForm } from '../utils/formSubmit';
 import { EVENT_INFO } from '../data/event-info';
 import './ContactUs.css';
 
+const BLANK_FORM = { name: '', email: '', subject: '', message: '' };
+
 export const ContactUs = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-    });
-    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [formData, setFormData] = useState(BLANK_FORM);
+    const { status, isSubmitting, isError, isSuccess, submit, reset } = useFormSubmission();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,26 +21,13 @@ export const ContactUs = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setStatus('submitting');
-
-        await submitForm(
-            { form_type: 'Contact Us', ...formData },
-            () => {
-                setStatus('success');
-                setFormData({ name: '', email: '', subject: '', message: '' });
-            },
-            () => setStatus('error')
-        );
+        const result = await submit(() => submitForm({ form_type: 'Contact Us', ...formData }));
+        if (result?.status === 'ok') setFormData(BLANK_FORM);
     };
 
     return (
         <div className="contact-page">
-            <div className="page-header">
-                <div className="container">
-                    <h1 className="page-title">Contact Us</h1>
-                    <p className="page-subtitle">We would love to hear from you</p>
-                </div>
-            </div>
+            <PageHeader title="Contact Us" subtitle="We would love to hear from you" />
 
             <div className="container mt-spacing-12">
                 <div className="contact-grid">
@@ -82,43 +71,35 @@ export const ContactUs = () => {
                     <div className="contact-form-container card">
                         <h2>Send a Message</h2>
 
-                        {status === 'success' ? (
-                            <div className="form-success-message form-success-card">
-                                <div className="form-success-icon"><CheckmarkIcon size={48} /></div>
-                                <h3>Message Sent!</h3>
-                                <p>Thank you for reaching out. We will get back to you shortly.</p>
-                                <button className="btn btn-secondary form-success-btn" onClick={() => setStatus('idle')}>Send Another Message</button>
-                            </div>
+                        {isSuccess ? (
+                            <FormSuccess
+                                title="Message Sent!"
+                                message="Thank you for reaching out. We will get back to you shortly."
+                                resetLabel="Send Another Message"
+                                onReset={reset}
+                            />
                         ) : (
                             <form className="contact-form" onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="contact-name">Full Name</label>
-                                    <input id="contact-name" type="text" name="name" value={formData.name} onChange={handleChange} className="form-input input-glow-focus" placeholder="Your Name" required disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Full Name" htmlFor="contact-name">
+                                    <input id="contact-name" type="text" name="name" value={formData.name} onChange={handleChange} className="form-input input-glow-focus" placeholder="Your Name" required disabled={isSubmitting} />
+                                </FormField>
 
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="contact-email">Email Address</label>
-                                    <input id="contact-email" type="email" name="email" value={formData.email} onChange={handleChange} className="form-input input-glow-focus" placeholder="you@example.com" required disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Email Address" htmlFor="contact-email">
+                                    <input id="contact-email" type="email" name="email" value={formData.email} onChange={handleChange} className="form-input input-glow-focus" placeholder="you@example.com" required disabled={isSubmitting} />
+                                </FormField>
 
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="contact-subject">Subject</label>
-                                    <input id="contact-subject" type="text" name="subject" value={formData.subject} onChange={handleChange} className="form-input input-glow-focus" placeholder="How can we help?" required disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Subject" htmlFor="contact-subject">
+                                    <input id="contact-subject" type="text" name="subject" value={formData.subject} onChange={handleChange} className="form-input input-glow-focus" placeholder="How can we help?" required disabled={isSubmitting} />
+                                </FormField>
 
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="contact-message">Message</label>
-                                    <textarea id="contact-message" name="message" value={formData.message} onChange={handleChange} className="form-input input-glow-focus" rows={5} placeholder="Your message details..." required disabled={status === 'submitting'}></textarea>
-                                </div>
+                                <FormField label="Message" htmlFor="contact-message">
+                                    <textarea id="contact-message" name="message" value={formData.message} onChange={handleChange} className="form-input input-glow-focus" rows={5} placeholder="Your message details..." required disabled={isSubmitting}></textarea>
+                                </FormField>
 
-                                {status === 'error' && (
-                                    <div className="form-error-message" role="alert">
-                                        An error occurred. Please try again.
-                                    </div>
-                                )}
+                                {isError && <FormError />}
 
-                                <button type="submit" className={`btn btn-primary btn-ripple btn-glow btn-full-width${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting'}>
-                                    {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                                <button type="submit" className="btn btn-primary btn-ripple btn-glow btn-full-width" data-status={status} disabled={isSubmitting}>
+                                    {isSubmitting ? 'Sending...' : 'Send Message'}
                                 </button>
                             </form>
                         )}

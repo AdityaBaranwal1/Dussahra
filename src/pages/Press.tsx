@@ -1,4 +1,5 @@
 import { ConchIcon } from '../components/icons/CulturalIcons';
+import { PageHeader } from '../components/PageHeader';
 import './MediaGrid.css';
 
 const DOCS_DATA = [
@@ -10,12 +11,7 @@ const DOCS_DATA = [
 export const Press = () => {
     return (
         <div className="media-page media-page-light">
-            <div className="page-header page-header-dark">
-                <div className="container">
-                    <h1 className="page-title text-shimmer">Press & Media Coverage</h1>
-                    <p className="page-subtitle">Official press releases and media resources</p>
-                </div>
-            </div>
+            <PageHeader title="Press & Media Coverage" subtitle="Official press releases and media resources" dark shimmer />
 
             <div className="reading-container mt-spacing-8">
                 <div className="flex-col-gap-4">

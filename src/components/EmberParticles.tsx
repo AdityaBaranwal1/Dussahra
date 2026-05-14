@@ -119,7 +119,13 @@ export const EmberParticles = () => {
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
         resize();
-        window.addEventListener('resize', resize);
+
+        let resizeTimer = 0;
+        const onResize = () => {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(resize, 120);
+        };
+        window.addEventListener('resize', onResize);
 
         const onMouseMove = (e: MouseEvent) => {
             mouseRef.current.x = e.clientX;
@@ -148,8 +154,12 @@ export const EmberParticles = () => {
             if (el !== zoneEl) { zoneEl = el; setupZoneIO(); }
         };
         findZone();
+        // The ember zone is only inside the <main> region (rendered on the Home route).
+        // Scope the observer there so unrelated DOM churn (animations, hovers) doesn't
+        // re-run findZone hundreds of times per second.
+        const main = document.getElementById('main-content') ?? document.body;
         const zoneMO = new MutationObserver(findZone);
-        zoneMO.observe(document.body, { childList: true, subtree: true });
+        zoneMO.observe(main, { childList: true, subtree: true });
 
         // Seed across full viewport
         const cw0 = window.innerWidth;
@@ -364,7 +374,8 @@ export const EmberParticles = () => {
 
         return () => {
             cancelAnimationFrame(animFrameRef.current);
-            window.removeEventListener('resize', resize);
+            window.clearTimeout(resizeTimer);
+            window.removeEventListener('resize', onResize);
             window.removeEventListener('mousemove', onMouseMove);
             motionQuery.removeEventListener('change', onMotionChange);
             zoneMO.disconnect();

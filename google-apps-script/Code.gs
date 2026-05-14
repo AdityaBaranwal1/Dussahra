@@ -37,10 +37,58 @@ function doPost(e) {
       return handleZelleVerification_(body);
     }
 
+    if (formType === 'Volunteer Sign-Up') {
+      return handleVolunteerSignUp_(body);
+    }
+
+    if (formType === 'Contact Us') {
+      return handleContactMessage_(body);
+    }
+
     return jsonResponse_({ status: 'error', message: 'Unknown form_type: ' + formType });
   } catch (err) {
     return jsonResponse_({ status: 'error', message: err.toString() });
   }
+}
+
+// ── Volunteer Sign-Up: email + optional Drive attachment ────
+
+function handleVolunteerSignUp_(body) {
+  var subject = 'New Volunteer Sign-Up: ' + (body.name || 'Unknown');
+  var bodyText = 'Name: ' + (body.name || '') + '\n'
+    + 'Email: ' + (body.email || '') + '\n'
+    + 'Contact Number: ' + (body.contactNumber || '') + '\n'
+    + 'Address: ' + (body.address || '') + '\n'
+    + 'Agreed to Terms: ' + (body.agreeToTerms ? 'Yes' : 'No') + '\n'
+    + 'Submitted At: ' + getEasternTimestamp_();
+
+  var options = {};
+  if (body.fileBase64) {
+    var decoded = Utilities.base64Decode(body.fileBase64);
+    var blob    = Utilities.newBlob(decoded, body.fileMimeType || 'application/octet-stream', body.fileName || 'attachment');
+    options.attachments = [blob];
+  }
+
+  MailApp.sendEmail(NOTIFY_EMAIL, subject, bodyText, options);
+  return jsonResponse_({ status: 'ok' });
+}
+
+// ── Contact Us: email only ──────────────────────────────────
+
+function handleContactMessage_(body) {
+  var subject = 'Contact Form: ' + (body.subject || '(no subject)');
+  var bodyText = 'From: ' + (body.name || '') + ' <' + (body.email || '') + '>\n'
+    + 'Subject: ' + (body.subject || '') + '\n\n'
+    + (body.message || '') + '\n\n'
+    + '— Submitted ' + getEasternTimestamp_();
+
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: subject,
+    body: bodyText,
+    replyTo: body.email || undefined,
+  });
+  return jsonResponse_({ status: 'ok' });
 }
 
 // ── Phase 1: Booth Application ──────────────────────────────

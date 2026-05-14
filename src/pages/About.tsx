@@ -1,15 +1,11 @@
 import { LotusIcon, OmIcon } from '../components/icons/CulturalIcons';
+import { PageHeader } from '../components/PageHeader';
 import './About.css';
 
 export const About = () => {
     return (
         <div className="about-page">
-            <div className="page-header temple-arch">
-                <div className="container">
-                    <h1 className="page-title text-shimmer">About Us</h1>
-                    <p className="page-subtitle">Preserving Cultural Heritage in New Jersey</p>
-                </div>
-            </div>
+            <PageHeader title="About Us" subtitle="Preserving Cultural Heritage in New Jersey" templeArch shimmer />
 
             <div className="reading-container about-content glass-panel lotus-watermark mt-spacing-8">
                 <section className="about-section reveal reveal-left">

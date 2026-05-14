@@ -1,54 +1,32 @@
 import { useState, useMemo } from 'react';
 import { CheckmarkIcon, AlertIcon, PhoneIcon, PaymentIcon, ShieldCheckIcon } from '../components/icons/CulturalIcons';
+import { PageHeader } from '../components/PageHeader';
+import { FormField } from '../components/forms/FormField';
+import { FormError } from '../components/forms/FormError';
+import { useFormSubmission } from '../hooks/useFormSubmission';
 import { submitBoothForm, submitZelleVerification } from '../utils/formSubmit';
 import { compressImage } from '../utils/imageCompress';
 import { EVENT_INFO } from '../data/event-info';
+import {
+    PRICING_GENERAL,
+    PRICING_FOOD,
+    ADD_ONS,
+    ALL_BOOTHS,
+    ADD_ON_CHAIR_PRICE,
+    ADD_ON_TABLE_PRICE,
+    SELF_BOOTH_PERMIT_FEE,
+} from '../data/booth-pricing';
 import './BoothBooking.css';
 
-const PRICING_GENERAL = [
-    { id: 1, type: 'Dedicated Booth', size: '20x20', price: '$1500', includes: '4 Tables – 4 Chairs', note: 'Permit Included' },
-    { id: 2, type: 'Dedicated Booth', size: '20x10', price: '$1100', includes: '2 Tables – 2 Chairs', note: 'Permit Included' },
-    { id: 3, type: 'Dedicated Booth', size: '10x10', price: '$900', includes: '1 Table – 2 Chairs', note: 'Permit Included' },
-    { id: 4, type: 'Self Booth', size: '10x10', price: '$1000', includes: '1 Table – 2 Chairs', note: 'Permit Fee $25 extra — Tent/Canopy provided by vendor' },
-    { id: 5, type: 'Split Booth', size: '20x10/2', price: '$650', includes: '1 Table – 2 Chairs', note: 'Permit Included' },
-    { id: 6, type: 'Split Booth', size: '20x20/4', price: '$500', includes: '1 Table – 2 Chairs', note: 'Permit Included' },
-    { id: 7, type: 'Table in Open Area', size: 'Table', price: '$300', includes: '1 Table – 1 Chair', note: '' },
-];
-
-const PRICING_FOOD = [
-    { id: 101, type: 'Dedicated Booth', size: '20x20', price: '$3500', includes: '4 Tables – 4 Chairs', note: 'Permit Not Included — must be obtained by vendor. Vegetarian food only.' },
-];
-
-const ADD_ONS = [
-    { id: 201, item: 'Extra Table', price: '$25' },
-    { id: 202, item: 'Extra Chair', price: '$10' },
-    { id: 203, item: 'Ads Displayed on Screen', price: 'Contact Us' },
-    { id: 204, item: 'Physical Banner Space', price: 'Contact Us' },
-];
-
-const ALL_BOOTHS = [
-    ...PRICING_GENERAL.map(t => ({ label: `${t.type} - ${t.size} (${t.price})`, value: `${t.type} - ${t.size}`, price: parseInt(t.price.replace(/[^0-9]/g, '')), isSelfBooth: t.type === 'Self Booth' })),
-    ...PRICING_FOOD.map(t => ({ label: `Food: ${t.type} - ${t.size} (${t.price})`, value: `Food/Snacks Booth`, price: parseInt(t.price.replace(/[^0-9]/g, '')), isSelfBooth: false })),
-];
+const BLANK_FORM = {
+    businessName: '', contactPerson: '', title: '', phone: '', email: '',
+    boothType: '', postalAddress: '', city: '', taxId: '', vendorPermit: '',
+    date: '', additionalChair: 0, additionalTable: 0, description: '',
+};
 
 export const BoothBooking = () => {
-    const [formData, setFormData] = useState({
-        businessName: '',
-        contactPerson: '',
-        title: '',
-        phone: '',
-        email: '',
-        boothType: '',
-        postalAddress: '',
-        city: '',
-        taxId: '',
-        vendorPermit: '',
-        date: '',
-        additionalChair: 0,
-        additionalTable: 0,
-        description: ''
-    });
-    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'zelle-finalized' | 'error'>('idle');
+    const [formData, setFormData] = useState(BLANK_FORM);
+    const { isSubmitting, isError, isSuccess, submit, reset } = useFormSubmission();
     const [formId, setFormId] = useState('');
     const [zelleData, setZelleData] = useState({
         senderName: '',
@@ -72,18 +50,16 @@ export const BoothBooking = () => {
     const calculatedTotal = useMemo(() => {
         if (!selectedBooth) return 0;
         let total = selectedBooth.price;
-        total += formData.additionalChair * 10;
-        total += formData.additionalTable * 25;
-        if (selectedBooth.isSelfBooth) total += 25;
+        total += formData.additionalChair * ADD_ON_CHAIR_PRICE;
+        total += formData.additionalTable * ADD_ON_TABLE_PRICE;
+        if (selectedBooth.isSelfBooth) total += SELF_BOOTH_PERMIT_FEE;
         return total;
     }, [selectedBooth, formData.additionalChair, formData.additionalTable]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setStatus('submitting');
-
-        try {
-            const result = await submitBoothForm({
+        const result = await submit(() =>
+            submitBoothForm({
                 boothType: formData.boothType,
                 additionalChair: formData.additionalChair,
                 additionalTable: formData.additionalTable,
@@ -99,12 +75,9 @@ export const BoothBooking = () => {
                 vendorPermit: formData.vendorPermit,
                 date: formData.date,
                 description: formData.description,
-            });
-            setFormId(result.formId || '');
-            setStatus('success');
-        } catch {
-            setStatus('error');
-        }
+            })
+        );
+        if (result?.status === 'ok') setFormId(result.formId || '');
     };
 
     const handleZelleSubmit = async (e: React.FormEvent) => {
@@ -123,7 +96,7 @@ export const BoothBooking = () => {
 
             setZelleStatus('submitting');
 
-            await submitZelleVerification({
+            const result = await submitZelleVerification({
                 formId,
                 senderName: zelleData.senderName,
                 confirmationCode: zelleData.confirmationCode,
@@ -131,6 +104,10 @@ export const BoothBooking = () => {
                 screenshotMimeType,
                 businessName: formData.businessName,
             });
+            if (result.status !== 'ok') {
+                setZelleStatus('error');
+                return;
+            }
             setZelleStatus('success');
         } catch {
             setZelleStatus('error');
@@ -138,27 +115,23 @@ export const BoothBooking = () => {
     };
 
     const resetAll = () => {
-        setStatus('idle');
+        reset();
         setFormId('');
         setZelleStatus('idle');
         setAgreedToTerms(false);
         setAgreedToCompliance(false);
         setZelleData({ senderName: '', confirmationCode: '', screenshot: null });
-        setFormData({
-            businessName: '', contactPerson: '', title: '', phone: '', email: '',
-            boothType: '', postalAddress: '', city: '', taxId: '', vendorPermit: '',
-            date: '', additionalChair: 0, additionalTable: 0, description: ''
-        });
+        setFormData(BLANK_FORM);
     };
 
     return (
         <div className="booking-page">
-            <div className="page-header temple-arch">
-                <div className="container">
-                    <h1 className="page-title text-shimmer">Vendor Booth Booking</h1>
-                    <p className="page-subtitle">Reserve your space at the {EVENT_INFO.editionLabel.replace(' Edition', '')} Festival</p>
-                </div>
-            </div>
+            <PageHeader
+                title="Vendor Booth Booking"
+                subtitle={`Reserve your space at the ${EVENT_INFO.editionLabel.replace(' Edition', '')} Festival`}
+                templeArch
+                shimmer
+            />
 
             <div className="container booking-content">
                 <div className="pricing-section">
@@ -262,7 +235,7 @@ export const BoothBooking = () => {
                         <p>Please fill out your details below. Once submitted, our team will review and contact you with Zelle payment instructions.</p>
                     </div>
 
-                    {status === 'success' || status === 'zelle-finalized' ? (
+                    {isSuccess ? (
                         <div className="form-success-message booth-success-message">
                             <div className="booth-success-icon"><CheckmarkIcon size={48} /></div>
                             <h3 className="booth-success-title">Application Successfully Received!</h3>
@@ -295,28 +268,21 @@ export const BoothBooking = () => {
                                 <form onSubmit={handleZelleSubmit} className="booth-zelle-form">
                                     <h4>Payment Verification</h4>
 
-                                    <div className="form-group">
-                                        <label className="form-label" htmlFor="booth-zelleSender">Zelle Sender Name</label>
+                                    <FormField label="Zelle Sender Name" htmlFor="booth-zelleSender">
                                         <input id="booth-zelleSender" type="text" className="form-input" placeholder="Enter the name on your Zelle account" value={zelleData.senderName} onChange={e => setZelleData({ ...zelleData, senderName: e.target.value })} required disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'} />
-                                    </div>
+                                    </FormField>
 
-                                    <div className="form-group">
-                                        <label className="form-label" htmlFor="booth-zelleScreenshot">Zelle Confirmation Screenshot</label>
+                                    <FormField label="Zelle Confirmation Screenshot" htmlFor="booth-zelleScreenshot">
                                         <input id="booth-zelleScreenshot" type="file" className="form-input" accept="image/*" onChange={e => setZelleData({ ...zelleData, screenshot: e.target.files?.[0] || null })} disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'} />
-                                    </div>
+                                    </FormField>
 
-                                    <div className="form-group">
-                                        <label className="form-label" htmlFor="booth-zelleCode">Confirmation Code</label>
+                                    <FormField label="Confirmation Code" htmlFor="booth-zelleCode">
                                         <input id="booth-zelleCode" type="text" className="form-input" placeholder="Enter your Zelle confirmation/transaction code" value={zelleData.confirmationCode} onChange={e => setZelleData({ ...zelleData, confirmationCode: e.target.value })} required disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'} />
-                                    </div>
+                                    </FormField>
 
-                                    {zelleStatus === 'error' && (
-                                        <div className="booth-error" role="alert">
-                                            Your application was submitted, but we could not upload your Zelle proof. Please try again or contact us directly.
-                                        </div>
-                                    )}
+                                    {zelleStatus === 'error' && <FormError message="Your application was submitted, but we could not upload your Zelle proof. Please try again or contact us directly." />}
 
-                                    <button type="submit" className={`btn btn-primary btn-ripple submit-btn${zelleStatus !== 'idle' && zelleStatus !== 'error' ? ' booth-submit-opacity' : ''}`} disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'}>
+                                    <button type="submit" className="btn btn-primary btn-ripple submit-btn" disabled={zelleStatus === 'submitting' || zelleStatus === 'compressing'}>
                                         {zelleStatus === 'compressing' ? 'Compressing image...' : zelleStatus === 'submitting' ? 'Uploading...' : 'Finalize Booking'}
                                     </button>
                                 </form>
@@ -324,86 +290,72 @@ export const BoothBooking = () => {
                         </div>
                     ) : (
                         <form className="booking-form" onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="booth-boothType">Select Booth</label>
-                                <select id="booth-boothType" name="boothType" value={formData.boothType} onChange={handleChange} className="form-input" required disabled={status === 'submitting'}>
+                            <FormField label="Select Booth" htmlFor="booth-boothType">
+                                <select id="booth-boothType" name="boothType" value={formData.boothType} onChange={handleChange} className="form-input" required disabled={isSubmitting}>
                                     <option value="">Select a booth type...</option>
                                     {PRICING_GENERAL.map(t => <option key={t.id} value={`${t.type} - ${t.size}`}>{t.type} - {t.size} ({t.price})</option>)}
                                     <option disabled>--- Food Vendors ---</option>
                                     <option value="Food/Snacks Booth">Food/Snacks Booth ($3500)</option>
                                 </select>
+                            </FormField>
+
+                            <div className="form-row">
+                                <FormField label="Additional Chair" htmlFor="booth-additionalChair">
+                                    <input id="booth-additionalChair" type="number" name="additionalChair" value={formData.additionalChair} onChange={handleChange} className="form-input" min="0" disabled={isSubmitting} />
+                                </FormField>
+                                <FormField label="Additional Table" htmlFor="booth-additionalTable">
+                                    <input id="booth-additionalTable" type="number" name="additionalTable" value={formData.additionalTable} onChange={handleChange} className="form-input" min="0" disabled={isSubmitting} />
+                                </FormField>
                             </div>
 
                             <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-additionalChair">Additional Chair</label>
-                                    <input id="booth-additionalChair" type="number" name="additionalChair" value={formData.additionalChair} onChange={handleChange} className="form-input" min="0" disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-additionalTable">Additional Table</label>
-                                    <input id="booth-additionalTable" type="number" name="additionalTable" value={formData.additionalTable} onChange={handleChange} className="form-input" min="0" disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Name" htmlFor="booth-contactPerson">
+                                    <input id="booth-contactPerson" type="text" name="contactPerson" value={formData.contactPerson} onChange={handleChange} className="form-input" placeholder="First and Last Name" required disabled={isSubmitting} />
+                                </FormField>
+                                <FormField label="Title" htmlFor="booth-title">
+                                    <input id="booth-title" type="text" name="title" value={formData.title} onChange={handleChange} className="form-input" placeholder="e.g. Mr., Mrs., Manager" disabled={isSubmitting} />
+                                </FormField>
                             </div>
 
                             <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-contactPerson">Name</label>
-                                    <input id="booth-contactPerson" type="text" name="contactPerson" value={formData.contactPerson} onChange={handleChange} className="form-input" placeholder="First and Last Name" required disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-title">Title</label>
-                                    <input id="booth-title" type="text" name="title" value={formData.title} onChange={handleChange} className="form-input" placeholder="e.g. Mr., Mrs., Manager" disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Tel No" htmlFor="booth-phone">
+                                    <input id="booth-phone" type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" placeholder="(555) 123-4567" required disabled={isSubmitting} />
+                                </FormField>
+                                <FormField label="Business / Organization Name" htmlFor="booth-businessName">
+                                    <input id="booth-businessName" type="text" name="businessName" value={formData.businessName} onChange={handleChange} className="form-input" placeholder="e.g. Acme Craft Goods" required disabled={isSubmitting} />
+                                </FormField>
                             </div>
 
                             <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-phone">Tel No</label>
-                                    <input id="booth-phone" type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-input" placeholder="(555) 123-4567" required disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-businessName">Business / Organization Name</label>
-                                    <input id="booth-businessName" type="text" name="businessName" value={formData.businessName} onChange={handleChange} className="form-input" placeholder="e.g. Acme Craft Goods" required disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Postal Address" htmlFor="booth-postalAddress">
+                                    <input id="booth-postalAddress" type="text" name="postalAddress" value={formData.postalAddress} onChange={handleChange} className="form-input" placeholder="Street address" disabled={isSubmitting} />
+                                </FormField>
+                                <FormField label="City" htmlFor="booth-city">
+                                    <input id="booth-city" type="text" name="city" value={formData.city} onChange={handleChange} className="form-input" placeholder="City" disabled={isSubmitting} />
+                                </FormField>
                             </div>
 
                             <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-postalAddress">Postal Address</label>
-                                    <input id="booth-postalAddress" type="text" name="postalAddress" value={formData.postalAddress} onChange={handleChange} className="form-input" placeholder="Street address" disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-city">City</label>
-                                    <input id="booth-city" type="text" name="city" value={formData.city} onChange={handleChange} className="form-input" placeholder="City" disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Email Address" htmlFor="booth-email">
+                                    <input id="booth-email" type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" placeholder="you@example.com" required disabled={isSubmitting} />
+                                </FormField>
+                                <FormField label="Tax ID" htmlFor="booth-taxId">
+                                    <input id="booth-taxId" type="text" name="taxId" value={formData.taxId} onChange={handleChange} className="form-input" placeholder="Tax ID number" disabled={isSubmitting} />
+                                </FormField>
                             </div>
 
                             <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-email">Email Address</label>
-                                    <input id="booth-email" type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" placeholder="you@example.com" required disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-taxId">Tax ID</label>
-                                    <input id="booth-taxId" type="text" name="taxId" value={formData.taxId} onChange={handleChange} className="form-input" placeholder="Tax ID number" disabled={status === 'submitting'} />
-                                </div>
+                                <FormField label="Vendor/Food Permit" htmlFor="booth-vendorPermit">
+                                    <input id="booth-vendorPermit" type="text" name="vendorPermit" value={formData.vendorPermit} onChange={handleChange} className="form-input" placeholder="Permit number or status" disabled={isSubmitting} />
+                                </FormField>
+                                <FormField label="Date" htmlFor="booth-date">
+                                    <input id="booth-date" type="date" name="date" value={formData.date} onChange={handleChange} className="form-input" disabled={isSubmitting} />
+                                </FormField>
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-vendorPermit">Vendor/Food Permit</label>
-                                    <input id="booth-vendorPermit" type="text" name="vendorPermit" value={formData.vendorPermit} onChange={handleChange} className="form-input" placeholder="Permit number or status" disabled={status === 'submitting'} />
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-label" htmlFor="booth-date">Date</label>
-                                    <input id="booth-date" type="date" name="date" value={formData.date} onChange={handleChange} className="form-input" disabled={status === 'submitting'} />
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="booth-description">Description of items to be sold</label>
-                                <textarea id="booth-description" name="description" value={formData.description} onChange={handleChange} className="form-input" rows={4} placeholder="Please detail the items you plan to sell or display..." required disabled={status === 'submitting'}></textarea>
-                            </div>
+                            <FormField label="Description of items to be sold" htmlFor="booth-description">
+                                <textarea id="booth-description" name="description" value={formData.description} onChange={handleChange} className="form-input" rows={4} placeholder="Please detail the items you plan to sell or display..." required disabled={isSubmitting}></textarea>
+                            </FormField>
 
                             <div className="calculations-section booth-calculations">
                                 <h4>Calculations</h4>
@@ -416,19 +368,19 @@ export const BoothBooking = () => {
                                         {formData.additionalChair > 0 && (
                                             <div className="booth-calc-row">
                                                 <span>Additional Chair x{formData.additionalChair}</span>
-                                                <span>${(formData.additionalChair * 10).toFixed(2)}</span>
+                                                <span>${(formData.additionalChair * ADD_ON_CHAIR_PRICE).toFixed(2)}</span>
                                             </div>
                                         )}
                                         {formData.additionalTable > 0 && (
                                             <div className="booth-calc-row">
                                                 <span>Additional Table x{formData.additionalTable}</span>
-                                                <span>${(formData.additionalTable * 25).toFixed(2)}</span>
+                                                <span>${(formData.additionalTable * ADD_ON_TABLE_PRICE).toFixed(2)}</span>
                                             </div>
                                         )}
                                         {selectedBooth.isSelfBooth && (
                                             <div className="booth-calc-row">
                                                 <span>Permit Fee (Self Booth)</span>
-                                                <span>$25.00</span>
+                                                <span>${SELF_BOOTH_PERMIT_FEE.toFixed(2)}</span>
                                             </div>
                                         )}
                                         <hr className="booth-calc-divider" />
@@ -442,11 +394,7 @@ export const BoothBooking = () => {
                                 )}
                             </div>
 
-                            {status === 'error' && (
-                                <div className="booth-error" role="alert">
-                                    An error occurred sending your application. Please try again or contact us directly.
-                                </div>
-                            )}
+                            {isError && <FormError message="An error occurred sending your application. Please try again or contact us directly." />}
 
                             <label className="form-disclaimer-checkbox" htmlFor="booth-agreeTerms">
                                 <input
@@ -455,7 +403,7 @@ export const BoothBooking = () => {
                                     checked={agreedToTerms}
                                     onChange={e => setAgreedToTerms(e.target.checked)}
                                     required
-                                    disabled={status === 'submitting'}
+                                    disabled={isSubmitting}
                                 />
                                 <span>I confirm that I have read and agree to the attached rules, terms and conditions and understand that Indo American Festivals, Inc. is not responsible for loss, theft or damage of my property. I will abide by the terms and conditions of Indo American Festivals, Inc. and the rules and regulations of Edison Township, New Jersey.</span>
                             </label>
@@ -467,13 +415,13 @@ export const BoothBooking = () => {
                                     checked={agreedToCompliance}
                                     onChange={e => setAgreedToCompliance(e.target.checked)}
                                     required
-                                    disabled={status === 'submitting'}
+                                    disabled={isSubmitting}
                                 />
                                 <span>I/We agree to abide by the terms and conditions established by Indo American Festivals, Inc. And confirm that we will fully comply with all requirements.</span>
                             </label>
 
-                            <button type="submit" className={`btn btn-primary btn-ripple submit-btn${status === 'submitting' ? ' booth-submit-opacity' : ''}`} disabled={status === 'submitting' || !agreedToTerms || !agreedToCompliance}>
-                                {status === 'submitting' ? 'Submitting...' : 'Submit Application'}
+                            <button type="submit" className="btn btn-primary btn-ripple submit-btn" disabled={isSubmitting || !agreedToTerms || !agreedToCompliance}>
+                                {isSubmitting ? 'Submitting...' : 'Submit Application'}
                             </button>
                         </form>
                     )}

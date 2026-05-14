@@ -1,5 +1,6 @@
 import './Events.css';
 import { GhungrooIcon, MudraIcon, BowArrowIcon, FlameIcon, ClockIcon, LocationPinIcon } from '../components/icons/CulturalIcons';
+import { PageHeader } from '../components/PageHeader';
 import { EVENT_INFO } from '../data/event-info';
 
 const EVENT_DATA = [
@@ -40,12 +41,10 @@ const EVENT_DATA = [
 export const Events = () => {
     return (
         <div className="events-page">
-            <div className="page-header">
-                <div className="container">
-                    <h1 className="page-title">Event Schedule</h1>
-                    <p className="page-subtitle">{EVENT_INFO.eventDateDisplay} | Rain Date: {EVENT_INFO.rainDate}</p>
-                </div>
-            </div>
+            <PageHeader
+                title="Event Schedule"
+                subtitle={`${EVENT_INFO.eventDateDisplay} | Rain Date: ${EVENT_INFO.rainDate}`}
+            />
 
             <div className="container event-container">
                 <div className="events-grid">

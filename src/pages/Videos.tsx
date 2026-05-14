@@ -1,3 +1,4 @@
+import { PageHeader } from '../components/PageHeader';
 import './MediaGrid.css';
 
 const VIDEO_DATA = [
@@ -10,12 +11,7 @@ const VIDEO_DATA = [
 export const Videos = () => {
     return (
         <div className="media-page pos-relative">
-            <div className="page-header z-2">
-                <div className="container">
-                    <h1 className="page-title text-shimmer">Video Highlights</h1>
-                    <p className="page-subtitle">Watch the magic of the festival unfold</p>
-                </div>
-            </div>
+            <PageHeader title="Video Highlights" subtitle="Watch the magic of the festival unfold" raised shimmer />
 
             <div className="container mt-spacing-8 z-2">
                 <div className="media-grid">

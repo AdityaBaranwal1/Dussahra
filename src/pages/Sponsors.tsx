@@ -1,15 +1,17 @@
 import { SPONSORS } from '../data/sponsors';
+import { PageHeader } from '../components/PageHeader';
 import './Sponsors.css';
 
 export const Sponsors = () => {
     return (
         <div className="sponsors-page">
-            <div className="page-header page-header-dark temple-arch">
-                <div className="container">
-                    <h1 className="page-title text-shimmer">Our Sponsors</h1>
-                    <p className="page-subtitle">We deeply appreciate the unified support of all our community partners.</p>
-                </div>
-            </div>
+            <PageHeader
+                title="Our Sponsors"
+                subtitle="We deeply appreciate the unified support of all our community partners."
+                templeArch
+                dark
+                shimmer
+            />
 
             <div className="container sponsors-container">
                 <section className="sponsor-tier reveal">

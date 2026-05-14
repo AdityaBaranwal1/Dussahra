@@ -5,16 +5,9 @@ import './RangoliIntro.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Programmatic rangoli with 8-fold radial symmetry.
- * Uses sine/cosine petal curves — geometric and clean.
- * Animates with stroke-dashoffset (free, no DrawSVGPlugin needed).
- */
-
 const CX = 200;
 const CY = 200;
 
-// Generate a petal path from center outward at a given angle
 const petalPath = (angle: number, innerR: number, outerR: number, spread: number): string => {
     const rad = (angle * Math.PI) / 180;
     const radL = ((angle - spread) * Math.PI) / 180;
@@ -25,7 +18,6 @@ const petalPath = (angle: number, innerR: number, outerR: number, spread: number
     const baseX = CX + innerR * Math.cos(rad);
     const baseY = CY + innerR * Math.sin(rad);
 
-    // Control points for the curved petal edges
     const cpDist = (outerR - innerR) * 0.7;
     const cp1X = baseX + cpDist * Math.cos(radL);
     const cp1Y = baseY + cpDist * Math.sin(radL);
@@ -35,14 +27,11 @@ const petalPath = (angle: number, innerR: number, outerR: number, spread: number
     return `M ${baseX},${baseY} Q ${cp1X},${cp1Y} ${tipX},${tipY} Q ${cp2X},${cp2Y} ${baseX},${baseY} Z`;
 };
 
-// Generate 8 petals at evenly spaced angles
 const generatePetals = (innerR: number, outerR: number, spread: number) =>
     Array.from({ length: 8 }, (_, i) => petalPath(i * 45, innerR, outerR, spread));
 
-// Concentric decorative circles
 const circles = [180, 140, 95, 55, 30];
 
-// Dot positions along a circle
 const generateDots = (radius: number, count: number) =>
     Array.from({ length: count }, (_, i) => {
         const angle = (i * 360) / count;
